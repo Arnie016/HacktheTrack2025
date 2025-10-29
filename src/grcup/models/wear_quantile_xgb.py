@@ -29,15 +29,29 @@ def train_wear_quantile_model(
         Dict with models, scaler, feature_names
     """
     # Feature columns (tire_age must be first for monotonic constraint)
-    feature_cols = [
+    # Include new interaction features for better model performance
+    base_features = [
         "tire_age",  # First = index 0 for monotonic constraint
         "track_temp",
+        "temp_anomaly",
         "stint_len",
         "sector_S3_coeff",
         "clean_air",
         "traffic_density",
-        "driver_TE",
     ]
+    
+    # Add interaction features if available
+    interaction_features = [
+        "tire_temp_interaction",
+        "tire_clean_interaction",
+        "traffic_temp_interaction",
+    ]
+    
+    feature_cols = base_features + [f for f in interaction_features if f in features_df.columns]
+    
+    # Add driver_TE if available
+    if "driver_TE" in features_df.columns:
+        feature_cols.append("driver_TE")
     
     # Check all features exist
     missing = [c for c in feature_cols if c not in features_df.columns]

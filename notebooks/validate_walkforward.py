@@ -174,30 +174,67 @@ def compute_counterfactuals(
     if len(valid_recs) == 0:
         return []
     
-    # Extract actual positions from results
-    actual_positions = {}
-    vehicle_to_position = {}
+    # Build vehicle_id ↔ NUMBER mapping from lap data + sectors
+    # Match recommendations (vehicle_id) to results (NUMBER)
+    vehicle_to_number = {}
+    number_to_position = {}
     
+    # Extract NUMBER from vehicle_id pattern (e.g., "GR86-002-2" → try to match to sectors NUMBER)
+    if len(race2_laps) > 0:
+        # Use vehicle_id from lap data as-is
+        for vehicle_id in race2_laps["vehicle_id"].unique():
+            # Try to extract number from vehicle_id pattern
+            parts = str(vehicle_id).split("-")
+            potential_nums = []
+            for p in parts:
+                try:
+                    potential_nums.append(int(p))
+                except:
+                    pass
+            
+            # Store first potential number (heuristic)
+            if len(potential_nums) > 0:
+                # Use the last number (often the car number)
+                vehicle_to_number[vehicle_id] = potential_nums[-1]
+    
+    # Extract positions from results CSV using NUMBER
     if len(race2_results) > 0:
-        # Try different column name variations
         pos_col = None
-        car_col = None
+        num_col = None
         
         for col in race2_results.columns:
-            if "POSITION" in col.upper() or "POS" in col.upper():
+            if ("POSITION" in col.upper() or "POS" in col.upper()) and pos_col is None:
                 pos_col = col
-            if "VEHICLE" in col.upper() or "CAR" in col.upper() or "NUMBER" in col.upper():
-                car_col = col
+            if "NUMBER" in col.upper() and num_col is None:
+                num_col = col
         
-        if pos_col and car_col:
+        if pos_col and num_col:
             for _, row in race2_results.iterrows():
-                car_id = str(row[car_col]).strip() if pd.notna(row[car_col]) else None
+                number = row[num_col]
                 position = row[pos_col]
-                if car_id and pd.notna(position):
+                if pd.notna(number) and pd.notna(position):
                     try:
-                        vehicle_to_position[car_id] = float(position)
+                        number_to_position[int(number)] = float(position)
                     except:
                         pass
+    
+    # Build final vehicle_id → position mapping
+    vehicle_to_position = {}
+    mismatch_count = 0
+    mismatch_examples = []
+    
+    for vehicle_id, number in vehicle_to_number.items():
+        if number in number_to_position:
+            vehicle_to_position[vehicle_id] = number_to_position[number]
+        else:
+            mismatch_count += 1
+            if len(mismatch_examples) < 20:
+                mismatch_examples.append(f"{vehicle_id} → NUMBER {number} (not found in results)")
+    
+    if mismatch_count > 0:
+        print(f"  Warning: {mismatch_count} vehicle_id → NUMBER mismatches")
+        if len(mismatch_examples) > 0:
+            print(f"    Examples: {mismatch_examples[:5]}")
     
     # Compute counterfactuals for each valid recommendation
     for rec in valid_recs:
@@ -205,23 +242,42 @@ def compute_counterfactuals(
         recommended_pit = rec.get("recommended_pit_lap")
         current_lap = rec.get("lap", 1)
         
-        # Get actual position if available
+        # Get actual position if available (now properly matched)
         actual_pos = vehicle_to_position.get(vehicle_id, None)
+        
+        # Get actual race time if available (from results)
+        actual_race_time = None
+        if vehicle_id in vehicle_to_number:
+            number = vehicle_to_number[vehicle_id]
+            # Try to get TOTAL_TIME from results
+            if len(race2_results) > 0 and "TOTAL_TIME" in race2_results.columns and "NUMBER" in race2_results.columns:
+                result_row = race2_results[race2_results["NUMBER"] == number]
+                if len(result_row) > 0:
+                    total_time_str = result_row["TOTAL_TIME"].iloc[0]
+                    if pd.notna(total_time_str):
+                        # Parse MM:SS.mmm format
+                        try:
+                            parts = str(total_time_str).split(":")
+                            if len(parts) == 2:
+                                actual_race_time = float(parts[0]) * 60 + float(parts[1])
+                        except:
+                            pass
         
         # Estimate delta time based on confidence and expected gain
         expected_gain = rec.get("expected_gain", 0.0)
         confidence = rec.get("confidence", 0.0)
         
-        # Simulate: if we followed recommendation vs didn't pit
-        # Simplified calculation
-        delta_time = expected_gain * confidence if confidence > 0 else 0.0
+        # Use expected_gain directly (already computed by optimizer)
+        delta_time = expected_gain if expected_gain != 0 else (expected_gain * confidence)
         
-        # Estimate position change (simplified: better strategy → better position)
-        # In reality would need full race simulation
+        # Estimate position change based on time delta
+        # More realistic: 1 position ≈ 5-10s time delta in GR Cup
         delta_position = 0.0
-        if actual_pos is not None and delta_time < 0:  # Time saved
-            # Time saved → likely position gained (simplified)
-            delta_position = min(1.0, abs(delta_time) / 10.0)  # Cap at 1 position
+        if actual_pos is not None and delta_time < 0:  # Time saved (negative = faster)
+            # Time saved → estimate position gained
+            # Conservative: 5s per position
+            estimated_positions_gained = abs(delta_time) / 5.0
+            delta_position = min(3.0, estimated_positions_gained)  # Cap at 3 positions
         
         counterfactuals.append({
             "vehicle_id": vehicle_id,

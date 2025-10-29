@@ -55,7 +55,7 @@ def detect_clean_air_flag(
     sectors_df: pd.DataFrame,
     vehicle_number: int,
     lap_number: int,
-    sector_name: str,
+    sector_name: str,  # "S3", "S3_SECONDS", etc.
     threshold_std: float = 1.0,
 ) -> bool:
     """
@@ -113,7 +113,7 @@ def compute_traffic_density(
     results_df: pd.DataFrame,
     vehicle_number: int,
     lap_number: int,
-    sector_end: str = "S3_SECONDS",  # Use sector 3 end for gap calculation
+    sector_end: str = "S3",  # Use sector 3 end for gap calculation ("S3" or "S3_SECONDS")
     proximity_seconds: float = 1.5,
 ) -> float:
     """
@@ -130,6 +130,15 @@ def compute_traffic_density(
     Returns:
         Traffic density (0.0 = no traffic, higher = more traffic)
     """
+    # Try S3_SECONDS first, fallback to S3 if not found
+    if sector_end not in sectors_df.columns:
+        if sector_end == "S3" and "S3_SECONDS" in sectors_df.columns:
+            sector_end = "S3_SECONDS"
+        elif sector_end == "S3_SECONDS" and "S3" in sectors_df.columns:
+            sector_end = "S3"
+        else:
+            return 0.0
+    
     if sector_end not in sectors_df.columns:
         return 0.0
     

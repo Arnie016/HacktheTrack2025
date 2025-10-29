@@ -6,6 +6,7 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
+import argparse
 
 # Add src to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
@@ -78,6 +79,11 @@ def get_package_versions() -> dict:
 
 def main():
     """Train all models on Race 1 data."""
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--cqr-alpha", type=float, default=0.10, help="CQR alpha (target miscoverage)")
+    parser.add_argument("--cqr-scale", type=float, default=0.90, help="Scale factor for conformal adjustments (post-compute)")
+    args = parser.parse_args()
+
     base_dir = Path(__file__).parent.parent
     race_dir = base_dir / "Race 1"
     models_dir = base_dir / "models"
@@ -178,19 +184,17 @@ def main():
         cal_actuals = cal_actuals.iloc[:min_len]
         
         # Compute conformal adjustments
-        # Use conservative alpha (0.05 = 95% target) for distribution shift robustness
-        # This widens bands significantly to handle train/test distribution mismatch
+        # Use user-provided alpha (e.g., 0.10 = 90% target)
         adj_low, adj_high = conformalize_quantiles(
             cal_predictions["q10"].values,
             cal_predictions["q90"].values,
             cal_actuals.values,
-            alpha=0.05,  # Target 95% coverage (very conservative for hackathon robustness)
+            alpha=args.cqr_alpha,
         )
-        
-        # Apply larger safety factor (1.8x) to handle significant train/test distribution shift
-        # Race 2 has wider spread and different characteristics than Race 1
-        adj_low = adj_low * 1.8
-        adj_high = adj_high * 1.8
+
+        # Scale adjustments (nudge coverage if needed)
+        adj_low = adj_low * args.cqr_scale
+        adj_high = adj_high * args.cqr_scale
         
         # Pre-CQR coverage for reporting
         from src.grcup.evaluation.calibration import compute_quantile_coverage

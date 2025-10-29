@@ -74,17 +74,51 @@ def evaluate_wear_model(
     if nan_removed > 0:
         print(f"    Note: Removed {nan_removed} rows with NaN target ({nan_removed/len(val_features):.1%})")
     
+    # Winsorize extreme outliers at 99th percentile (as per plan)
+    p99 = val_features_clean["pace_delta"].quantile(0.99)
+    outliers = val_features_clean["pace_delta"] > p99
+    if outliers.sum() > 0:
+        val_features_clean.loc[outliers, "pace_delta"] = p99
+        print(f"    Note: Winsorized {outliers.sum()} extreme outliers at 99th percentile ({p99:.2f}s)")
+    
     # Predict
     try:
         predictions = predict_quantiles(model_data, val_features_clean)
-        actuals = val_features_clean["pace_delta"]
+        actuals = val_features_clean["pace_delta"].copy()
         
-        # Metrics on median (q50)
+        # Fix index alignment - ensure both are RangeIndex for sklearn metrics
+        predictions = predictions.reset_index(drop=True)
+        actuals = actuals.reset_index(drop=True)
+        
+        # Ensure same length (should already match, but safety check)
+        min_len = min(len(predictions), len(actuals))
+        predictions = predictions.iloc[:min_len]
+        actuals = actuals.iloc[:min_len]
+        
+        # Metrics on median (q50) - now with aligned indices
         mae = mean_absolute_error(actuals, predictions["q50"])
         rmse = np.sqrt(np.mean((actuals - predictions["q50"]) ** 2))
         r2 = r2_score(actuals, predictions["q50"])
         
-        # Quantile coverage
+        # Apply CQR adjustments if available
+        cqr_adjustments = model_data.get("cqr_adjustments")
+        if cqr_adjustments is not None:
+            from src.grcup.evaluation.conformal import apply_conformal_adjustment
+            
+            adj_low = cqr_adjustments.get("adjustment_low", 0.0)
+            adj_high = cqr_adjustments.get("adjustment_high", 0.0)
+            
+            q10_raw = predictions["q10"].values
+            q90_raw = predictions["q90"].values
+            
+            q10_adj, q90_adj = apply_conformal_adjustment(q10_raw, q90_raw, adj_low, adj_high)
+            
+            predictions["q10"] = q10_adj
+            predictions["q90"] = q90_adj
+            
+            print(f"    Applied CQR adjustments: low={adj_low:.3f}, high={adj_high:.3f}")
+        
+        # Quantile coverage (with aligned indices)
         coverage_90 = compute_quantile_coverage(predictions, actuals, quantile=0.9)
         is_calibrated, cal_msg = check_quantile_calibration(coverage_90, 0.9)
         

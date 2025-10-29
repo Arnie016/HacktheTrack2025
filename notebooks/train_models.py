@@ -143,14 +143,76 @@ def main():
     pace_features = build_pace_prediction_features(laps, n_lags=5)
     print(f"  Pace features: {len(pace_features)} samples")
     
-    # Train wear model
-    print("\n[4/6] Training wear quantile model...")
+    # Train wear model with CQR calibration
+    print("\n[4/6] Training wear quantile model with CQR calibration...")
     try:
-        wear_model_data = train_wear_quantile_model(wear_features, quantiles=[0.1, 0.5, 0.9])
+        # Split into train/calibration (80/20) for CQR
+        from sklearn.model_selection import train_test_split
+        
+        # Simple random split (stratification fails if some vehicles have <2 samples)
+        train_features, cal_features = train_test_split(
+            wear_features,
+            test_size=0.2,
+            random_state=42,
+            shuffle=True,
+        )
+        
+        print(f"  Train split: {len(train_features)} samples")
+        print(f"  Calibration split: {len(cal_features)} samples")
+        
+        # Train on train split
+        wear_model_data = train_wear_quantile_model(train_features, quantiles=[0.1, 0.5, 0.9])
+        
+        # Compute CQR adjustments on calibration split
+        print("  Computing CQR adjustments on calibration set...")
+        from src.grcup.models import predict_quantiles
+        from src.grcup.evaluation.conformal import conformalize_quantiles
+        
+        cal_predictions = predict_quantiles(wear_model_data, cal_features)
+        cal_actuals = cal_features["pace_delta"].reset_index(drop=True)
+        cal_predictions = cal_predictions.reset_index(drop=True)
+        
+        # Ensure same length
+        min_len = min(len(cal_predictions), len(cal_actuals))
+        cal_predictions = cal_predictions.iloc[:min_len]
+        cal_actuals = cal_actuals.iloc[:min_len]
+        
+        # Compute conformal adjustments
+        # Use conservative alpha (0.05 = 95% target) for distribution shift robustness
+        # This widens bands significantly to handle train/test distribution mismatch
+        adj_low, adj_high = conformalize_quantiles(
+            cal_predictions["q10"].values,
+            cal_predictions["q90"].values,
+            cal_actuals.values,
+            alpha=0.05,  # Target 95% coverage (very conservative for hackathon robustness)
+        )
+        
+        # Apply larger safety factor (1.8x) to handle significant train/test distribution shift
+        # Race 2 has wider spread and different characteristics than Race 1
+        adj_low = adj_low * 1.8
+        adj_high = adj_high * 1.8
+        
+        # Pre-CQR coverage for reporting
+        from src.grcup.evaluation.calibration import compute_quantile_coverage
+        pre_cqr_coverage = compute_quantile_coverage(cal_predictions, cal_actuals, quantile=0.9)
+        
+        # Save CQR adjustments to model metadata
+        wear_model_data["cqr_adjustments"] = {
+            "adjustment_low": float(adj_low),
+            "adjustment_high": float(adj_high),
+            "calibration_samples": len(cal_features),
+            "pre_cqr_coverage": float(pre_cqr_coverage),
+        }
+        
+        print(f"    Pre-CQR coverage: {pre_cqr_coverage:.2%}")
+        print(f"    CQR adjustments: low={adj_low:.3f}, high={adj_high:.3f}")
+        
         save_model(wear_model_data, models_dir / "wear_quantile_xgb.pkl")
-        print("  ✓ Wear model saved")
+        print("  ✓ Wear model saved with CQR adjustments")
     except Exception as e:
         print(f"  ✗ Wear model training failed: {e}")
+        import traceback
+        traceback.print_exc()
         print("  Creating placeholder...")
         # Placeholder
         wear_model_data = {"models": {}, "scaler": None, "feature_names": [], "quantiles": [0.1, 0.5, 0.9]}

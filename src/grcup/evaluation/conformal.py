@@ -43,6 +43,46 @@ def conformalize_quantiles(
     return float(q_low), float(q_high)
 
 
+def build_conformal_adjuster(
+    q10_cal: np.ndarray | pd.Series,
+    q90_cal: np.ndarray | pd.Series,
+    y_cal: np.ndarray | pd.Series,
+    alpha: float = 0.10,
+):
+    """
+    Build a conformal adjuster function from calibration data.
+    
+    Args:
+        q10_cal: Predicted q10 on calibration set
+        q90_cal: Predicted q90 on calibration set
+        y_cal: Actual values on calibration set
+        alpha: Target miscoverage (0.10 = 90% coverage)
+    
+    Returns:
+        Function that takes (q10, q90) and returns adjusted (q10_adj, q90_adj)
+    """
+    q_low, q_high = conformalize_quantiles(q10_cal, q90_cal, y_cal, alpha)
+    
+    def adjust(q10, q90):
+        """Adjust quantiles by conformal offsets."""
+        lo = q10 - q_low
+        hi = q90 + q_high
+        # Guard against crossing
+        if isinstance(lo, np.ndarray):
+            mask = lo > hi
+            if np.any(mask):
+                midpoint = 0.5 * (lo + hi)
+                lo[mask] = midpoint[mask] - 1e-3
+                hi[mask] = midpoint[mask] + 1e-3
+        elif lo > hi:  # Scalar case
+            midpoint = 0.5 * (lo + hi)
+            lo = midpoint - 1e-3
+            hi = midpoint + 1e-3
+        return lo, hi
+    
+    return adjust, q_low, q_high
+
+
 def apply_conformal_adjustment(
     q10_pred: np.ndarray | pd.Series,
     q90_pred: np.ndarray | pd.Series,

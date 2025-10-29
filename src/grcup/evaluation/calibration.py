@@ -19,7 +19,7 @@ def compute_quantile_coverage(
     
     Args:
         predictions: DataFrame with quantile columns
-        actuals: Actual values
+        actuals: Actual values (must align with predictions index)
         quantile: Target quantile (0.9 = 90%)
     
     Returns:
@@ -28,10 +28,27 @@ def compute_quantile_coverage(
     if "q10" not in predictions.columns or "q90" not in predictions.columns:
         raise ValueError("Need q10 and q90 columns")
     
+    # Ensure indices align - reset both to RangeIndex for safe comparison
+    predictions_aligned = predictions.reset_index(drop=True).copy()
+    actuals_aligned = actuals.reset_index(drop=True).copy()
+    
+    # Ensure same length
+    min_len = min(len(predictions_aligned), len(actuals_aligned))
+    if min_len == 0:
+        raise ValueError("Empty predictions or actuals")
+    
+    predictions_aligned = predictions_aligned.iloc[:min_len]
+    actuals_aligned = actuals_aligned.iloc[:min_len]
+    
+    # Ensure quantile ordering (q10 <= q50 <= q90) - no crossing
+    q_values = predictions_aligned[["q10", "q50", "q90"]].values
+    q_values.sort(axis=1)  # Sort each row
+    predictions_aligned[["q10", "q50", "q90"]] = q_values
+    
     # Check if actuals fall within prediction band
     within_band = (
-        (actuals >= predictions["q10"]) &
-        (actuals <= predictions["q90"])
+        (actuals_aligned >= predictions_aligned["q10"]) &
+        (actuals_aligned <= predictions_aligned["q90"])
     )
     
     coverage = within_band.mean()

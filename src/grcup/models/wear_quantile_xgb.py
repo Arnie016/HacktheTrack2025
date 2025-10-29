@@ -115,7 +115,15 @@ def predict_quantiles(
         pred = model.predict(X_scaled)
         predictions[q_name] = pred
     
-    return pd.DataFrame(predictions)
+    pred_df = pd.DataFrame(predictions)
+    
+    # Ensure quantile ordering (q10 <= q50 <= q90) - no crossing
+    # Sort each row to enforce ordering
+    q_values = pred_df[["q10", "q50", "q90"]].values
+    q_values.sort(axis=1)  # Sort each row ascending
+    pred_df[["q10", "q50", "q90"]] = q_values
+    
+    return pred_df
 
 
 def save_model(model_data: dict, path: Path | str):

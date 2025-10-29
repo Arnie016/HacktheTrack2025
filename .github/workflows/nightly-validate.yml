@@ -1,0 +1,72 @@
+name: Nightly Train+Validate (Commit Artifacts)
+
+on:
+  schedule:
+    - cron: '0 2 * * *'  # 02:00 UTC daily
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: nightly-artifacts
+  cancel-in-progress: true
+
+jobs:
+  run-and-commit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      
+      - uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+      
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          pip install gh
+      
+      - name: Train & Validate (CPU)
+        run: |
+          python scripts/train.py --event R1 --outdir models/
+          python scripts/validate_walkforward.py --event R2 --outdir reports/
+      
+      - name: Create/Update PR
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          BR=bot/artifacts
+          TS=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+          
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          
+          git checkout -B "$BR"
+          git add models/ reports/
+          
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "ci: nightly artifacts @ ${TS}"
+            git push -f "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" "$BR"
+            
+            gh pr create \
+              --title "Nightly artifacts @ ${TS}" \
+              --body "Auto-updated models and validation reports" \
+              --base main \
+              --head "$BR" \
+              || gh pr edit --title "Nightly artifacts @ ${TS}" --body "Auto-updated" || true
+          fi
+
+

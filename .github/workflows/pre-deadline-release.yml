@@ -1,0 +1,47 @@
+name: Pre-Deadline Release (Bundle)
+
+on:
+  schedule:
+    - cron: '0 0 25 11 *'   # 00:00 UTC Nov 25, 2025
+    - cron: '40 0 25 11 *'  # 00:40 UTC Nov 25, 2025 (redundancy)
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      
+      - uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+      
+      - name: Ensure fresh artifacts
+        run: |
+          pip install -r requirements.txt
+          python scripts/train.py --event R1 --outdir models/
+          python scripts/validate_walkforward.py --event R2 --outdir reports/
+      
+      - name: Package
+        run: |
+          mkdir -p dist
+          tar -czf dist/models-and-reports.tgz models/ reports/ README.md CONTRIBUTING.md
+      
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: "pre-deadline-2025-11-25"
+          files: dist/models-and-reports.tgz
+          body: "Pre-deadline submission bundle for Hack the Track 2025"
+
+

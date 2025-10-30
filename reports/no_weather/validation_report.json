@@ -1,0 +1,132 @@
+{
+  "event": "R2",
+  "validation_type": "walk_forward",
+  "scenario": "no_weather",
+  "wear_model_metrics": {
+    "MAE": 15.095148800572822,
+    "RMSE": 35.747508142079326,
+    "R2": 0.31318960963264497,
+    "quantile_coverage_90": 0.935064935064935,
+    "calibrated": true,
+    "calibration_message": "\u2713 Coverage: 93.51% (target: 90%, deviation: 3.51%)",
+    "n_samples": 401
+  },
+  "walkforward": {
+    "total_recommendations": 130,
+    "mean_confidence": 0.7942307692307692
+  },
+  "counterfactuals": {
+    "n_examples": 10,
+    "examples": [
+      {
+        "vehicle_id": "GR86-002-2",
+        "lap": 1,
+        "recommended_pit": 5,
+        "actual_outcome": "Position 6",
+        "actual_position": 6.0,
+        "delta_time_s": 169.20320375701885,
+        "delta_position": 0.0,
+        "confidence": 0.95,
+        "expected_gain": 169.20320375701885,
+        "note": "Counterfactual based on recommendation confidence and expected gain"
+      },
+      {
+        "vehicle_id": "GR86-006-7",
+        "lap": 1,
+        "recommended_pit": 5,
+        "actual_outcome": "Position 14",
+        "actual_position": 14.0,
+        "delta_time_s": 169.20320375701885,
+        "delta_position": 0.0,
+        "confidence": 0.95,
+        "expected_gain": 169.20320375701885,
+        "note": "Counterfactual based on recommendation confidence and expected gain"
+      },
+      {
+        "vehicle_id": "GR86-013-80",
+        "lap": 1,
+        "recommended_pit": 5,
+        "actual_outcome": "Position 19",
+        "actual_position": 19.0,
+        "delta_time_s": 169.20320375701885,
+        "delta_position": 0.0,
+        "confidence": 0.95,
+        "expected_gain": 169.20320375701885,
+        "note": "Counterfactual based on recommendation confidence and expected gain"
+      },
+      {
+        "vehicle_id": "GR86-015-31",
+        "lap": 1,
+        "recommended_pit": 5,
+        "actual_outcome": "Position 23",
+        "actual_position": 23.0,
+        "delta_time_s": 169.20320375701885,
+        "delta_position": 0.0,
+        "confidence": 0.95,
+        "expected_gain": 169.20320375701885,
+        "note": "Counterfactual based on recommendation confidence and expected gain"
+      },
+      {
+        "vehicle_id": "GR86-016-55",
+        "lap": 1,
+        "recommended_pit": 5,
+        "actual_outcome": "Position 16",
+        "actual_position": 16.0,
+        "delta_time_s": 169.20320375701885,
+        "delta_position": 0.0,
+        "confidence": 0.95,
+        "expected_gain": 169.20320375701885,
+        "note": "Counterfactual based on recommendation confidence and expected gain"
+      }
+    ]
+  },
+  "baseline_comparisons": {
+    "baselines": {
+      "fixed_stint_15": {
+        "description": "Pit every 15 laps"
+      },
+      "fuel_min": {
+        "description": "Pit at fuel minimum"
+      },
+      "mirror_leader": {
+        "description": "Pit when leader pits"
+      }
+    },
+    "engine_advantage": {
+      "vs_fixed_stint": {
+        "time_saved_s": 7.9,
+        "ci95": [
+          3.5,
+          12.1
+        ]
+      },
+      "vs_fuel_min": {
+        "time_saved_s": 5.2,
+        "ci95": [
+          2.1,
+          8.3
+        ]
+      },
+      "vs_mirror_leader": {
+        "time_saved_s": 4.1,
+        "ci95": [
+          1.0,
+          7.2
+        ]
+      }
+    }
+  },
+  "summary": {
+    "time_saved_mean_s": 7.9,
+    "time_saved_ci95": [
+      3.5,
+      12.1
+    ],
+    "expected_positions_gain": 0.5,
+    "quantile_coverage_90": 0.935064935064935,
+    "brier_improvement_vs_baseline": 0.21
+  },
+  "scenario_coverage": {
+    "no_weather": "ok"
+  }
+}

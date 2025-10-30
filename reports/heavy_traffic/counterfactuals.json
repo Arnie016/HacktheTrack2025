@@ -1,0 +1,124 @@
+{
+  "examples": [
+    {
+      "vehicle_id": "GR86-002-2",
+      "lap": 1,
+      "recommended_pit": 5,
+      "actual_outcome": "Position 6",
+      "actual_position": 6.0,
+      "delta_time_s": 169.20320375701885,
+      "delta_position": 0.0,
+      "confidence": 0.95,
+      "expected_gain": 169.20320375701885,
+      "note": "Counterfactual based on recommendation confidence and expected gain"
+    },
+    {
+      "vehicle_id": "GR86-006-7",
+      "lap": 1,
+      "recommended_pit": 5,
+      "actual_outcome": "Position 14",
+      "actual_position": 14.0,
+      "delta_time_s": 169.20320375701885,
+      "delta_position": 0.0,
+      "confidence": 0.95,
+      "expected_gain": 169.20320375701885,
+      "note": "Counterfactual based on recommendation confidence and expected gain"
+    },
+    {
+      "vehicle_id": "GR86-013-80",
+      "lap": 1,
+      "recommended_pit": 5,
+      "actual_outcome": "Position 19",
+      "actual_position": 19.0,
+      "delta_time_s": 169.20320375701885,
+      "delta_position": 0.0,
+      "confidence": 0.95,
+      "expected_gain": 169.20320375701885,
+      "note": "Counterfactual based on recommendation confidence and expected gain"
+    },
+    {
+      "vehicle_id": "GR86-015-31",
+      "lap": 1,
+      "recommended_pit": 5,
+      "actual_outcome": "Position 23",
+      "actual_position": 23.0,
+      "delta_time_s": 169.20320375701885,
+      "delta_position": 0.0,
+      "confidence": 0.95,
+      "expected_gain": 169.20320375701885,
+      "note": "Counterfactual based on recommendation confidence and expected gain"
+    },
+    {
+      "vehicle_id": "GR86-016-55",
+      "lap": 1,
+      "recommended_pit": 5,
+      "actual_outcome": "Position 16",
+      "actual_position": 16.0,
+      "delta_time_s": 169.20320375701885,
+      "delta_position": 0.0,
+      "confidence": 0.95,
+      "expected_gain": 169.20320375701885,
+      "note": "Counterfactual based on recommendation confidence and expected gain"
+    },
+    {
+      "vehicle_id": "GR86-022-13",
+      "lap": 1,
+      "recommended_pit": 5,
+      "actual_outcome": "Position 1",
+      "actual_position": 1.0,
+      "delta_time_s": 169.20320375701885,
+      "delta_position": 0.0,
+      "confidence": 0.95,
+      "expected_gain": 169.20320375701885,
+      "note": "Counterfactual based on recommendation confidence and expected gain"
+    },
+    {
+      "vehicle_id": "GR86-024-41",
+      "lap": 1,
+      "recommended_pit": 5,
+      "actual_outcome": "Position 12",
+      "actual_position": 12.0,
+      "delta_time_s": 169.20320375701885,
+      "delta_position": 0.0,
+      "confidence": 0.95,
+      "expected_gain": 169.20320375701885,
+      "note": "Counterfactual based on recommendation confidence and expected gain"
+    },
+    {
+      "vehicle_id": "GR86-026-72",
+      "lap": 1,
+      "recommended_pit": 5,
+      "actual_outcome": "Position 2",
+      "actual_position": 2.0,
+      "delta_time_s": 169.20320375701885,
+      "delta_position": 0.0,
+      "confidence": 0.95,
+      "expected_gain": 169.20320375701885,
+      "note": "Counterfactual based on recommendation confidence and expected gain"
+    },
+    {
+      "vehicle_id": "GR86-028-89",
+      "lap": 1,
+      "recommended_pit": 5,
+      "actual_outcome": "Position 20",
+      "actual_position": 20.0,
+      "delta_time_s": 169.20320375701885,
+      "delta_position": 0.0,
+      "confidence": 0.95,
+      "expected_gain": 169.20320375701885,
+      "note": "Counterfactual based on recommendation confidence and expected gain"
+    },
+    {
+      "vehicle_id": "GR86-032-15",
+      "lap": 1,
+      "recommended_pit": 5,
+      "actual_outcome": "Position 13",
+      "actual_position": 13.0,
+      "delta_time_s": 169.20320375701885,
+      "delta_position": 0.0,
+      "confidence": 0.95,
+      "expected_gain": 169.20320375701885,
+      "note": "Counterfactual based on recommendation confidence and expected gain"
+    }
+  ]
+}

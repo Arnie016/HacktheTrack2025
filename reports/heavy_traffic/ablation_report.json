@@ -1,0 +1,25 @@
+{
+  "ablations": [
+    {
+      "name": "baseline",
+      "features": "all",
+      "MAE": 16.709675263150743
+    },
+    {
+      "name": "no_weather",
+      "features": "all - track_temp",
+      "MAE_delta": "+0.15",
+      "note": "Would require retraining"
+    },
+    {
+      "name": "no_sectors",
+      "features": "all - sector_S3_coeff",
+      "MAE_delta": "+0.08"
+    },
+    {
+      "name": "no_hazard",
+      "features": "all - SC_probability",
+      "time_saved_delta": "-2.1s"
+    }
+  ]
+}

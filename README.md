@@ -48,6 +48,38 @@ make all      # train + validate
 
 Stochastic Dynamic Programming optimizer using model outputs with uncertainty propagation.
 
+### Scenario Lab
+
+Run named, replayable scenarios:
+
+```bash
+python scripts/validate_walkforward.py --event R2 --scenario base
+python scripts/validate_walkforward.py --event R2 --scenario early_sc
+python scripts/validate_walkforward.py --event R2 --scenario late_sc
+python scripts/validate_walkforward.py --event R2 --scenario hot_track
+python scripts/validate_walkforward.py --event R2 --scenario heavy_traffic
+python scripts/validate_walkforward.py --event R2 --scenario undercut
+python scripts/validate_walkforward.py --event R2 --scenario no_weather
+```
+
+The validator emits scenario coverage:
+
+```json
+{
+  "scenario_coverage": {
+    "base": "ok",
+    "early_sc": "ok",
+    "late_sc": "ok",
+    "hot_track": "ok",
+    "heavy_traffic": "ok",
+    "undercut": "ok",
+    "no_weather": "ok"
+  }
+}
+```
+
+Close calls trigger adaptive Monte Carlo: when top-2 strategies are within 0.4s, the engine re-simulates only those with ~100 scenarios and recalculates confidence.
+
 ## Validation
 
 Walk-forward on Race 2 (causal, no leakage) with counterfactuals, calibration, and ablations.

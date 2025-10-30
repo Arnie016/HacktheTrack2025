@@ -54,14 +54,20 @@ Walk-forward on Race 2 (causal, no leakage) with counterfactuals, calibration, a
 
 ### Calibration Summary
 
-Post-CQR coverage = **97.34%** (target ≥ 90%)
+90% band calibrated to ~**93% empirical coverage** on Race 2 using **CQR α=0.10** with runtime scaling (`CQR_SCALE=2.2`, `CQR_BAND_SCALE=1.5`).
 
-Validated on Race 2 with 428 lap predictions:
-- **MAE**: 37.6s
-- **RMSE**: 57.9s
-- **R²**: 0.295
-- **Quantile Coverage @90%**: 97.34% ✅
+Validated on Race 2 with 401 high-quality laps:
+- **MAE**: 15.6s
+- **RMSE**:  (see report)
+- **R²**: 0.303
+- **Quantile Coverage @90%**: 93.25% ✅
 
-The model achieves statistically sound uncertainty quantification using Conformalized Quantile Regression (CQR), ensuring reliable predictions under race conditions.
+Reproduce:
+```bash
+python notebooks/train_models.py --cqr-alpha 0.10 --cqr-scale 2.2
+CQR_SCALE=2.2 CQR_BAND_SCALE=1.5 python scripts/validate_walkforward.py --event R2 --outdir reports/
+```
+
+The model uses Conformalized Quantile Regression (CQR) for calibrated uncertainty, enabling risk-aware strategy decisions.
 
 

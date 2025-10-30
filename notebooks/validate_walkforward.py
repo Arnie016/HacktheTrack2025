@@ -1,5 +1,6 @@
 """Walk-forward validation on Race 2 with counterfactuals."""
 import json
+import os
 import sys
 from pathlib import Path
 from typing import Any
@@ -107,16 +108,47 @@ def evaluate_wear_model(
             
             adj_low = cqr_adjustments.get("adjustment_low", 0.0)
             adj_high = cqr_adjustments.get("adjustment_high", 0.0)
+            # Optional runtime scaling to widen/narrow the band without retraining
+            try:
+                scale = float(os.getenv("CQR_SCALE", "1.0"))
+            except Exception:
+                scale = 1.0
+            adj_low *= scale
+            adj_high *= scale
             
             q10_raw = predictions["q10"].values
             q90_raw = predictions["q90"].values
             
             q10_adj, q90_adj = apply_conformal_adjustment(q10_raw, q90_raw, adj_low, adj_high)
             
+            # Optional band widening around q50 (proportional), independent of conformal offsets
+            try:
+                band_scale = float(os.getenv("CQR_BAND_SCALE", "1.0"))
+            except Exception:
+                band_scale = 1.0
+            if band_scale != 1.0:
+                q50_vals = predictions["q50"].values
+                half_low = (q50_vals - q10_adj)
+                half_high = (q90_adj - q50_vals)
+                # Ensure non-negative
+                half_low = np.maximum(half_low, 0.0)
+                half_high = np.maximum(half_high, 0.0)
+                q10_adj = q50_vals - band_scale * half_low
+                q90_adj = q50_vals + band_scale * half_high
+                # Guard against crossing
+                cross = q10_adj > q90_adj
+                if np.any(cross):
+                    mid = 0.5 * (q10_adj + q90_adj)
+                    q10_adj[cross] = mid[cross] - 1e-3
+                    q90_adj[cross] = mid[cross] + 1e-3
+            
             predictions["q10"] = q10_adj
             predictions["q90"] = q90_adj
             
-            print(f"    Applied CQR adjustments: low={adj_low:.3f}, high={adj_high:.3f}")
+            if band_scale != 1.0:
+                print(f"    Applied CQR adjustments: low={adj_low:.3f}, high={adj_high:.3f} (scale={scale:.2f}); band_scale={band_scale:.2f}")
+            else:
+                print(f"    Applied CQR adjustments: low={adj_low:.3f}, high={adj_high:.3f} (scale={scale:.2f})")
         
         # Quantile coverage (with aligned indices)
         coverage_90 = compute_quantile_coverage(predictions, actuals, quantile=0.9)

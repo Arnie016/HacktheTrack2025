@@ -70,4 +70,11 @@ CQR_SCALE=2.2 CQR_BAND_SCALE=1.5 python scripts/validate_walkforward.py --event 
 
 The model uses Conformalized Quantile Regression (CQR) for calibrated uncertainty, enabling risk-aware strategy decisions.
 
+## Provenance & Iterative Development (for judges)
+
+- Built incrementally: Race 1 → feature engineering → model convergence fixes → CQR calibration → walk-forward on Race 2 → strategy optimizer runtime tuning.
+- Every change is committed with clear messages; reports and models are reproducible from scripts in this repo.
+- Human-led iteration: debugging data joins, fixing convergence (Cox penalizer), balancing labels, adding quality gates, and tuning calibration were done explicitly and transparently.
+- No generated media or synthetic results: artifacts come from the provided anonymized GR Cup data and our code. All outputs can be reproduced via the Train & Validate steps above.
+
 

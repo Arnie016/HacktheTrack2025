@@ -124,16 +124,62 @@ Optimal Pit Lap + Confidence Interval + Strategy Type + Reasoning
 ## 📁 Project Structure
 
 ```
-f1/
-├── webapp.py              # Flask web application
-├── models/                # Trained model files (776 KB + 6.8 KB)
-├── src/grcup/             # Core ML modules
-│   ├── models/            # Wear, SC, damage, overtake
-│   └── strategy/          # Optimizer, Monte Carlo, position
-├── reports/production/    # Validation results
-├── Race 1/                # Training data
-├── Race 2/                # Validation data
-└── templates_webapp/      # HTML UI templates
+HacktheTrack2025/
+├── webapp.py                    # 🎮 Flask web application (main entry point)
+├── requirements.txt             # 📦 Python dependencies
+├── Makefile                     # ⚙️  Build automation
+├── CONTRIBUTING.md              # 📝 Contribution guidelines
+│
+├── data/                        # 📊 Race datasets (Race 1 & 2)
+│   ├── race1/                   # Training data (12,768 laps)
+│   └── race2/                   # Validation data (441 laps)
+│
+├── models/                      # 🤖 Trained ML models
+│   ├── wear_quantile_xgb.pkl    # XGBoost tire wear (776 KB)
+│   ├── cox_hazard.pkl           # Safety car predictor (6.8 KB)
+│   └── ...                      # Overtake, Kalman, metadata
+│
+├── src/grcup/                   # 🧠 Core AI engine
+│   ├── models/                  # Model implementations
+│   │   ├── wear_quantile_xgb.py # Tire degradation
+│   │   ├── sc_hazard.py         # Safety car probability
+│   │   ├── damage_detector.py   # Damage detection
+│   │   └── overtake.py          # Overtake prediction
+│   ├── strategy/                # Strategy optimization
+│   │   ├── optimizer_improved.py # Main optimizer
+│   │   ├── position_optimizer.py # Position-aware logic
+│   │   └── monte_carlo.py       # Simulation engine
+│   ├── features/                # Feature engineering
+│   └── evaluation/              # Performance metrics
+│
+├── templates_webapp/            # 🎨 Web UI (6 pages)
+│   ├── base.html                # Base template + navbar
+│   ├── index.html               # Homepage
+│   ├── live_demo.html           # Interactive demo
+│   ├── data_explorer.html       # Dataset viewer
+│   ├── ml_models.html           # Model details
+│   ├── results.html             # Validation charts
+│   └── about.html               # Full story
+│
+├── scripts/                     # 🔧 Utilities & validation
+│   ├── validate_race2_improved_full.py  # Full validation
+│   ├── compare_production_vs_actual.py  # Baseline comparison
+│   └── ...                      # More analysis scripts
+│
+├── reports/production/          # 📈 Validation results
+│   └── race2_full_validation.json  # 59 decisions analyzed
+│
+├── notebooks/                   # 📓 Training & experimentation
+│   ├── train_models.py          # Model training pipeline
+│   └── validate_walkforward.py  # Walk-forward validation
+│
+├── docs/                        # 📖 Documentation (25+ guides)
+│   ├── IMPROVEMENTS_IMPLEMENTED.md  # Technical details
+│   ├── WEBAPP_GUIDE.md          # Web app usage
+│   └── ...                      # Architecture, deployment, etc.
+│
+└── modal_clean/                 # ☁️  Cloud deployment (Modal)
+    └── grcup_modal.py           # Serverless GPU functions
 ```
 
 ---

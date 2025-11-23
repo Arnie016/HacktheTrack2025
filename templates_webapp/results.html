@@ -1,0 +1,415 @@
+{% extends "base.html" %}
+
+{% block title %}Validation Results - AI Pit Strategy{% endblock %}
+
+{% block extra_css %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+    .results-hero {
+        text-align: center;
+        background: white;
+        border-radius: 15px;
+        padding: 3rem;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        margin-bottom: 3rem;
+    }
+    
+    .results-hero h2 {
+        font-size: 3em;
+        color: var(--primary);
+        margin-bottom: 1rem;
+    }
+    
+    .grade-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2rem;
+        margin: 2rem 0;
+    }
+    
+    .grade-box {
+        background: white;
+        border-radius: 15px;
+        padding: 2rem;
+        text-align: center;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+    
+    .grade-box h3 {
+        font-size: 3em;
+        margin-bottom: 0.5rem;
+    }
+    
+    .grade-a { border-left: 5px solid var(--success); }
+    .grade-a h3 { color: var(--success); }
+    
+    .grade-b { border-left: 5px solid var(--primary); }
+    .grade-b h3 { color: var(--primary); }
+    
+    .grade-c { border-left: 5px solid var(--warning); }
+    .grade-c h3 { color: var(--warning); }
+    
+    .comparison-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 2rem 0;
+    }
+    
+    .comparison-table thead {
+        background: var(--primary);
+        color: white;
+    }
+    
+    .comparison-table th,
+    .comparison-table td {
+        padding: 1rem;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+    
+    .comparison-table tbody tr:hover {
+        background: #f5f5f5;
+    }
+    
+    .advantage-box {
+        background: linear-gradient(135deg, var(--success), #26de81);
+        color: white;
+        padding: 2rem;
+        border-radius: 15px;
+        text-align: center;
+        margin: 2rem 0;
+    }
+    
+    .advantage-box h3 {
+        font-size: 2.5em;
+        margin-bottom: 0.5rem;
+    }
+    
+    @media (max-width: 968px) {
+        .grade-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>📊 Validation Results</h1>
+    <p>Race 2 (Jeddah 2024) - 59 pit decisions across 21 vehicles</p>
+</div>
+
+<div class="results-hero">
+    <h2 id="agreement">Loading...</h2>
+    <p style="font-size: 1.3em; color: #666; margin-top: 1rem;">
+        <strong>Grade B Benchmark</strong> | AI matches professional crew decisions within 2-lap tolerance
+    </p>
+</div>
+
+<div class="card">
+    <h2>Performance Breakdown</h2>
+    
+    <div class="grade-grid" id="grades">
+        <div class="grade-box grade-a">
+            <h3 id="gradeACount">—</h3>
+            <h4 style="margin: 1rem 0;">Grade A</h4>
+            <p style="color: #666;">Perfect Match<br>(±0 laps)</p>
+        </div>
+        
+        <div class="grade-box grade-b">
+            <h3 id="gradeBCount">—</h3>
+            <h4 style="margin: 1rem 0;">Grade B</h4>
+            <p style="color: #666;">Close Match<br>(±1-2 laps)</p>
+        </div>
+        
+        <div class="grade-box grade-c">
+            <h3 id="gradeCCount">—</h3>
+            <h4 style="margin: 1rem 0;">Grade C</h4>
+            <p style="color: #666;">Different Approach<br>(>2 laps)</p>
+        </div>
+    </div>
+    
+    <h3 style="margin-top: 2rem; margin-bottom: 1rem; color: var(--secondary);">📊 Grade Distribution Chart</h3>
+    <div style="max-width: 600px; margin: 0 auto;">
+        <canvas id="gradeChart"></canvas>
+    </div>
+</div>
+
+<div class="card">
+    <h2>Time Advantage Analysis</h2>
+    
+    <div class="advantage-box">
+        <h3 id="avgTimeSaved">—</h3>
+        <p style="font-size: 1.2em; margin-top: 0.5rem;">Average Time Saved per Vehicle</p>
+        <p style="margin-top: 1.5rem; font-size: 1.1em; opacity: 0.95;">
+            Fleet-wide advantage: <strong id="totalAdvantage">—</strong><br>
+            Position equivalent: <strong id="positionsGained">—</strong>
+        </p>
+    </div>
+</div>
+
+<div class="card">
+    <h2>Strategy Type Distribution</h2>
+    <p style="color: #666; margin-bottom: 2rem;">
+        How often each strategy was recommended vs actual crew decisions
+    </p>
+    
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 2rem;">
+        <div>
+            <h3 style="text-align: center; color: var(--secondary); margin-bottom: 1rem;">Strategy Frequency</h3>
+            <canvas id="strategyFrequencyChart"></canvas>
+        </div>
+        <div>
+            <h3 style="text-align: center; color: var(--secondary); margin-bottom: 1rem;">Success Rates by Strategy</h3>
+            <canvas id="successRateChart"></canvas>
+        </div>
+    </div>
+    
+    <table class="comparison-table" id="strategyTable">
+        <thead>
+            <tr>
+                <th>Strategy Type</th>
+                <th>Frequency</th>
+                <th>Success Rate</th>
+                <th>Avg Positions Gained</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Loading...</strong></td>
+                <td colspan="3">Fetching strategy comparison data...</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="card">
+    <h2>📈 Key Findings</h2>
+    
+    <div style="line-height: 2; color: #555; font-size: 1.05em;">
+        <p>✅ <strong>50% expert agreement</strong> - AI matched crew decisions within 2 laps in 50.8% of cases (Grade B)</p>
+        <p>✅ <strong>Position-aware reasoning</strong> - 30/59 decisions (50.8%) used context beyond pure lap time</p>
+        <p>✅ <strong>Damage detection</strong> - Correctly identified 6/7 emergency pits (85.7%)</p>
+        <p>✅ <strong>Time advantage</strong> - Average 7.5s saved per vehicle, equivalent to 2-3 positions in sprint racing</p>
+        <p>✅ <strong>Real-time capable</strong> - All recommendations delivered in <5 seconds</p>
+        <p>✅ <strong>Transparent reasoning</strong> - Every decision includes confidence intervals and explanation</p>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    let gradeChart, strategyFreqChart, successChart;
+    
+    async function loadResults() {
+        try {
+            const response = await fetch('/api/validation_results');
+            const data = await response.json();
+            
+            if (data.summary) {
+                const summary = data.summary;
+                
+                document.getElementById('agreement').textContent = '50% Expert Agreement';
+                document.getElementById('gradeACount').textContent = summary.grade_a.percentage.toFixed(1) + '%';
+                document.getElementById('gradeBCount').textContent = summary.grade_b.percentage.toFixed(1) + '%';
+                document.getElementById('gradeCCount').textContent = summary.grade_c.percentage.toFixed(1) + '%';
+                
+                document.getElementById('avgTimeSaved').textContent = summary.avg_time_saved_per_vehicle.toFixed(1) + 's';
+                document.getElementById('totalAdvantage').textContent = summary.total_fleet_advantage.toFixed(1) + 's';
+                document.getElementById('positionsGained').textContent = summary.positions_equivalent;
+                
+                // Create Grade Distribution Chart
+                createGradeChart(summary);
+            }
+            
+            // Load strategy comparison
+            const stratResponse = await fetch('/api/strategy_comparison');
+            const stratData = await stratResponse.json();
+            
+            if (stratData.strategies) {
+                const tbody = document.querySelector('#strategyTable tbody');
+                tbody.innerHTML = '';
+                
+                stratData.strategies.forEach(strategy => {
+                    const row = `
+                        <tr>
+                            <td><strong>${strategy.name}</strong><br>
+                                <small style="color: #666;">${strategy.description}</small></td>
+                            <td>${strategy.frequency_race2}</td>
+                            <td>${strategy.success_rate}</td>
+                            <td>${strategy.avg_positions_gained}</td>
+                        </tr>
+                    `;
+                    tbody.innerHTML += row;
+                });
+                
+                // Create strategy charts
+                createStrategyCharts(stratData.strategies);
+            }
+            
+        } catch (error) {
+            console.error('Error loading results:', error);
+        }
+    }
+    
+    function createGradeChart(summary) {
+        const ctx = document.getElementById('gradeChart').getContext('2d');
+        
+        gradeChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Grade A (Perfect)', 'Grade B (Close)', 'Grade C (Different)'],
+                datasets: [{
+                    data: [
+                        summary.grade_a.percentage,
+                        summary.grade_b.percentage,
+                        summary.grade_c.percentage
+                    ],
+                    backgroundColor: [
+                        '#1dd1a1',  // Success green
+                        '#667eea',  // Primary blue
+                        '#ffa502'   // Warning orange
+                    ],
+                    borderWidth: 2,
+                    borderColor: '#fff'
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            font: { size: 14 },
+                            padding: 15
+                        }
+                    },
+                    title: {
+                        display: false
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return context.label + ': ' + context.parsed.toFixed(1) + '%';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
+    
+    function createStrategyCharts(strategies) {
+        // Parse frequency data
+        const labels = [];
+        const frequencies = [];
+        const successRates = [];
+        
+        strategies.forEach(strategy => {
+            labels.push(strategy.name);
+            // Extract just the number from "12 / 59 (20.3%)"
+            const freqMatch = strategy.frequency_race2.match(/(\d+)\s*\/\s*\d+/);
+            const freq = freqMatch ? parseInt(freqMatch[1]) : 0;
+            frequencies.push(freq);
+            
+            // Extract success rate percentage
+            const successMatch = strategy.success_rate.match(/([\d.]+)%/);
+            const success = successMatch ? parseFloat(successMatch[1]) : 0;
+            successRates.push(success);
+        });
+        
+        // Strategy Frequency Chart (Bar)
+        const freqCtx = document.getElementById('strategyFrequencyChart').getContext('2d');
+        strategyFreqChart = new Chart(freqCtx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Number of Times Used',
+                    data: frequencies,
+                    backgroundColor: [
+                        '#ffa502',  // Undercut
+                        '#ff6348',  // Defensive
+                        '#48dbfb',  // Hold
+                        '#1dd1a1',  // Optimal
+                        '#ff4757'   // Damage
+                    ],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { display: false },
+                    title: { display: false }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: { font: { size: 12 } },
+                        grid: { color: '#f0f0f0' }
+                    },
+                    x: {
+                        ticks: {
+                            font: { size: 11 },
+                            maxRotation: 45,
+                            minRotation: 45
+                        },
+                        grid: { display: false }
+                    }
+                }
+            }
+        });
+        
+        // Success Rate Chart (Horizontal Bar)
+        const successCtx = document.getElementById('successRateChart').getContext('2d');
+        successChart = new Chart(successCtx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Success Rate (%)',
+                    data: successRates,
+                    backgroundColor: [
+                        '#ffa502',
+                        '#ff6348',
+                        '#48dbfb',
+                        '#1dd1a1',
+                        '#ff4757'
+                    ],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                plugins: {
+                    legend: { display: false },
+                    title: { display: false }
+                },
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        max: 100,
+                        ticks: {
+                            callback: function(value) {
+                                return value + '%';
+                            },
+                            font: { size: 12 }
+                        },
+                        grid: { color: '#f0f0f0' }
+                    },
+                    y: {
+                        ticks: { font: { size: 11 } },
+                        grid: { display: false }
+                    }
+                }
+            }
+        });
+    }
+    
+    document.addEventListener('DOMContentLoaded', loadResults);
+</script>
+{% endblock %}
+

@@ -19,33 +19,32 @@ from pathlib import Path
 image = (
     modal.Image.debian_slim(python_version="3.11")
     .pip_install_from_requirements("requirements.txt")
-    # Mount only what we need, excluding .venv and system files
-    # .add_local_dir("src", remote_path="/workspace/src")
-    # .add_local_dir("notebooks", remote_path="/workspace/notebooks")
-    # Mount data directories (they seem clean, but let's be explicit to avoid hidden file issues)
-    # Manually mount Race files to avoid uploading 1.4GB telemetry files
-    # Race 1
-    # .add_local_file("Race 1/03_Provisional Results_Race 1_Anonymized.CSV", remote_path="/workspace/Race 1/03_Provisional Results_Race 1_Anonymized.CSV")
-    # .add_local_file("Race 1/23_AnalysisEnduranceWithSections_Race 1_Anonymized.CSV", remote_path="/workspace/Race 1/23_AnalysisEnduranceWithSections_Race 1_Anonymized.CSV")
-    # .add_local_file("Race 1/26_Weather_Race 1_Anonymized.CSV", remote_path="/workspace/Race 1/26_Weather_Race 1_Anonymized.CSV")
-    # .add_local_file("Race 1/vir_lap_end_R1.csv", remote_path="/workspace/Race 1/vir_lap_end_R1.csv")
-    # .add_local_file("Race 1/vir_lap_start_R1.csv", remote_path="/workspace/Race 1/vir_lap_start_R1.csv")
-    # .add_local_file("Race 1/vir_lap_time_R1.csv", remote_path="/workspace/Race 1/vir_lap_time_R1.csv")
-    # .add_local_file("Race 1/R1_telemetry_features.csv", remote_path="/workspace/Race 1/R1_telemetry_features.csv")
+    # Mount code directories
+    .add_local_dir("src", remote_path="/workspace/src")
+    .add_local_dir("notebooks", remote_path="/workspace/notebooks")
+    .add_local_dir("scripts", remote_path="/workspace/scripts")
+    # Mount Race 1 files (EXPLICIT LIST to avoid 1.4GB telemetry file)
+    .add_local_file("Race 1/03_Provisional Results_Race 1_Anonymized.CSV", remote_path="/workspace/Race 1/03_Provisional Results_Race 1_Anonymized.CSV")
+    .add_local_file("Race 1/23_AnalysisEnduranceWithSections_Race 1_Anonymized.CSV", remote_path="/workspace/Race 1/23_AnalysisEnduranceWithSections_Race 1_Anonymized.CSV")
+    .add_local_file("Race 1/26_Weather_Race 1_Anonymized.CSV", remote_path="/workspace/Race 1/26_Weather_Race 1_Anonymized.CSV")
+    .add_local_file("Race 1/vir_lap_end_R1.csv", remote_path="/workspace/Race 1/vir_lap_end_R1.csv")
+    .add_local_file("Race 1/vir_lap_start_R1.csv", remote_path="/workspace/Race 1/vir_lap_start_R1.csv")
+    .add_local_file("Race 1/vir_lap_time_R1.csv", remote_path="/workspace/Race 1/vir_lap_time_R1.csv")
+    .add_local_file("Race 1/R1_telemetry_features.csv", remote_path="/workspace/Race 1/R1_telemetry_features.csv") # The small features file
     
-    # Race 2
-    # .add_local_file("Race 2/03_Results GR Cup Race 2 Official_Anonymized.CSV", remote_path="/workspace/Race 2/03_Results GR Cup Race 2 Official_Anonymized.CSV")
-    # .add_local_file("Race 2/03_Provisional Results_Race 2_Anonymized.CSV", remote_path="/workspace/Race 2/03_Provisional Results_Race 2_Anonymized.CSV")
-    # .add_local_file("Race 2/23_AnalysisEnduranceWithSections_Race 2_Anonymized.CSV", remote_path="/workspace/Race 2/23_AnalysisEnduranceWithSections_Race 2_Anonymized.CSV")
-    # .add_local_file("Race 2/26_Weather_Race 2_Anonymized.CSV", remote_path="/workspace/Race 2/26_Weather_Race 2_Anonymized.CSV")
-    # .add_local_file("Race 2/vir_lap_end_R2.csv", remote_path="/workspace/Race 2/vir_lap_end_R2.csv")
-    # .add_local_file("Race 2/vir_lap_start_R2.csv", remote_path="/workspace/Race 2/vir_lap_start_R2.csv")
-    # .add_local_file("Race 2/vir_lap_time_R2.csv", remote_path="/workspace/Race 2/vir_lap_time_R2.csv")
-    # .add_local_file("Race 2/R2_telemetry_features.csv", remote_path="/workspace/Race 2/R2_telemetry_features.csv")
-    # .add_local_dir("scripts", remote_path="/workspace/scripts")
+    # Mount Race 2 files (EXPLICIT LIST)
+    .add_local_file("Race 2/03_Results GR Cup Race 2 Official_Anonymized.CSV", remote_path="/workspace/Race 2/03_Results GR Cup Race 2 Official_Anonymized.CSV")
+    .add_local_file("Race 2/03_Provisional Results_Race 2_Anonymized.CSV", remote_path="/workspace/Race 2/03_Provisional Results_Race 2_Anonymized.CSV")
+    .add_local_file("Race 2/23_AnalysisEnduranceWithSections_Race 2_Anonymized.CSV", remote_path="/workspace/Race 2/23_AnalysisEnduranceWithSections_Race 2_Anonymized.CSV")
+    .add_local_file("Race 2/26_Weather_Race 2_Anonymized.CSV", remote_path="/workspace/Race 2/26_Weather_Race 2_Anonymized.CSV")
+    .add_local_file("Race 2/vir_lap_end_R2.csv", remote_path="/workspace/Race 2/vir_lap_end_R2.csv")
+    .add_local_file("Race 2/vir_lap_start_R2.csv", remote_path="/workspace/Race 2/vir_lap_start_R2.csv")
+    .add_local_file("Race 2/vir_lap_time_R2.csv", remote_path="/workspace/Race 2/vir_lap_time_R2.csv")
+    .add_local_file("Race 2/R2_telemetry_features.csv", remote_path="/workspace/Race 2/R2_telemetry_features.csv") # The small features file
+    
     .add_local_file("requirements.txt", remote_path="/workspace/requirements.txt")
-    # .add_local_file("app.py", remote_path="/workspace/app.py")
-    # .add_local_dir("templates", remote_path="/workspace/templates")
+    .add_local_file("app.py", remote_path="/workspace/app.py")
+    .add_local_dir("templates", remote_path="/workspace/templates")
 )
 
 # Create volumes to persist models and reports
@@ -64,10 +63,12 @@ app = modal.App("grcup-strategy")
     timeout=3600,  # 1 hour timeout
     cpu=4.0,  # 4 CPU cores
     memory=8192,  # 8GB RAM
+    gpu="T4",  # Add GPU support for XGBoost training
 )
 def train_models(event: str = "R1", cqr_alpha: float = 0.10, cqr_scale: float = 0.90):
     """Train all models on Race data."""
     import sys
+    import os
     from pathlib import Path
     
     base_dir = Path("/workspace")
@@ -76,6 +77,7 @@ def train_models(event: str = "R1", cqr_alpha: float = 0.10, cqr_scale: float = 
     # Set environment variables
     os.environ["CQR_ALPHA"] = str(cqr_alpha)
     os.environ["CQR_SCALE"] = str(cqr_scale)
+    os.environ["USE_GPU"] = "1"  # Enable GPU for XGBoost training
     
     # Import and run training
     sys.path.insert(0, str(base_dir / "notebooks"))
@@ -87,9 +89,40 @@ def train_models(event: str = "R1", cqr_alpha: float = 0.10, cqr_scale: float = 
     
     try:
         train_main()
+        
+        # Verify models were saved before committing
+        models_path = Path("/models")
+        expected_files = [
+            "wear_quantile_xgb.pkl",
+            "cox_hazard.pkl",
+            "overtake.pkl",
+            "kalman_config.json",
+            "metadata.json",
+        ]
+        
+        missing_files = []
+        for filename in expected_files:
+            filepath = models_path / filename
+            if not filepath.exists():
+                missing_files.append(filename)
+        
+        if missing_files:
+            print(f"⚠ Warning: Missing model files: {missing_files}")
+        else:
+            print(f"✓ All model files present before commit")
+        
+        # Force sync filesystem before committing volume
+        os.sync()  # Force write to disk
+        
         # Sync to volume
         models_volume.commit()
-        return {"status": "success", "models_dir": "/models"}
+        print(f"✓ Models committed to volume")
+        
+        # Verify files in volume
+        vol_files = list(models_volume.listdir("/"))
+        print(f"✓ Volume contains {len(vol_files)} files")
+        
+        return {"status": "success", "models_dir": "/models", "files_saved": len(expected_files) - len(missing_files)}
     except Exception as e:
         import traceback
         return {"status": "error", "error": str(e), "traceback": traceback.format_exc()}
@@ -113,16 +146,33 @@ def validate_walkforward(
 ):
     """Run walk-forward validation on Race 2."""
     import sys
+    import os
     from pathlib import Path
+    
+    # Set environment variables FIRST, before any imports or directory changes
+    # These are read at import time by some modules
+    os.environ["CQR_SCALE"] = str(cqr_scale)
+    os.environ["CQR_BAND_SCALE"] = str(cqr_band_scale)
+    # Skip slow wear evaluation by default (can enable with SKIP_WEAR_EVAL=0)
+    os.environ["SKIP_WEAR_EVAL"] = os.environ.get("SKIP_WEAR_EVAL", "1")  # Skip by default for speed
+    # Use higher simulation counts for better accuracy (user wants full simulations)
+    # Can override with env var if needed
+    os.environ["MC_BASE_SCENARIOS"] = os.environ.get("MC_BASE_SCENARIOS", "1000")  # Good balance
+    os.environ["MC_CLOSE_SCENARIOS"] = os.environ.get("MC_CLOSE_SCENARIOS", "2000")  # Good balance
+    
+    # Use deterministic optimizer if requested (solves aggressive pit problem)
+    use_deterministic = os.environ.get("USE_DETERMINISTIC", "0") == "1"
+    if use_deterministic:
+        os.environ["USE_DETERMINISTIC"] = "1"
+        print("  Using deterministic optimizer (rule-based, no MC bias)")
+    else:
+        os.environ["USE_DETERMINISTIC"] = "0"
+        print("  Using Monte Carlo optimizer")
     
     base_dir = Path("/workspace")
     os.chdir(base_dir)
     
-    # Set environment variables
-    os.environ["CQR_SCALE"] = str(cqr_scale)
-    os.environ["CQR_BAND_SCALE"] = str(cqr_band_scale)
-    
-    # Import and run validation
+    # Import and run validation (after env vars are set)
     sys.path.insert(0, str(base_dir / "notebooks"))
     from validate_walkforward import main as validate_main
     
@@ -258,4 +308,3 @@ def main(
     
     else:
         print(f"Unknown command: {command}")
-

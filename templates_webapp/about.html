@@ -1,0 +1,328 @@
+{% extends "base.html" %}
+
+{% block title %}About - AI Pit Strategy{% endblock %}
+
+{% block extra_css %}
+<style>
+    .section {
+        background: white;
+        border-radius: 15px;
+        padding: 2.5rem;
+        margin-bottom: 2rem;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        line-height: 1.8;
+        font-size: 1.05em;
+    }
+    
+    .section h2 {
+        color: var(--primary);
+        border-bottom: 3px solid var(--primary);
+        padding-bottom: 0.75rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .section h3 {
+        color: var(--secondary);
+        margin-top: 2rem;
+        margin-bottom: 1rem;
+    }
+    
+    .section ul, .section ol {
+        margin: 1rem 0 1rem 2rem;
+    }
+    
+    .section li {
+        margin: 0.75rem 0;
+    }
+    
+    .section strong {
+        color: var(--dark);
+    }
+    
+    .highlight-box {
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        color: white;
+        padding: 1.5rem;
+        border-radius: 10px;
+        margin: 1.5rem 0;
+    }
+    
+    .info-box {
+        background: #f0f8ff;
+        border-left: 4px solid var(--primary);
+        padding: 1.5rem;
+        margin: 1.5rem 0;
+        border-radius: 5px;
+    }
+    
+    .tech-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+        margin: 1.5rem 0;
+    }
+    
+    .tech-card {
+        background: #f8f9fa;
+        padding: 1.25rem;
+        border-radius: 10px;
+        text-align: center;
+        border-left: 3px solid var(--primary);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>ℹ️ About the Project</h1>
+    <p>Inspiration, technical details, and future roadmap</p>
+</div>
+
+<div class="section">
+    <h2>💡 Inspiration</h2>
+    <p>
+        After watching the new Formula One movie with Brad Pitt, I got obsessed with the moment every race can hinge on: <strong>the pit call</strong>. One decision made too early or too late and your podium is gone.
+    </p>
+    <p>
+        In the Toyota GR Cup, pit strategy is not just fuel windows. It is <strong>tire degradation</strong> as track temps swing, <strong>safety car timing</strong>, battles in traffic, and sudden damage. I wanted to see if an AI could think like a seasoned pit wall and make those calls in real time.
+    </p>
+    
+    <div class="highlight-box">
+        <p style="font-size: 1.2em; margin-bottom: 0.75rem;"><strong>Question:</strong> Can machine learning match professional pit crews?</p>
+        <p style="font-size: 1.3em;"><strong>Answer:</strong> In Race 2 validation, we matched crew decisions <strong>50% of the time within a 2-lap window (Grade B).</strong></p>
+    </div>
+</div>
+
+<div class="section">
+    <h2>🔧 What It Does</h2>
+    <p>
+        <strong>AI Pit Strategy Optimizer</strong> is a production-ready system that recommends pit stops in real time using seven integrated ML components.
+    </p>
+    
+    <ol>
+        <li>
+            <strong>Tire Wear Prediction (XGBoost Quantile Regression)</strong><br>
+            Predicts lap time degradation from tire age, track temperature, air temperature, humidity, and traffic. Outputs 10th, 50th, 90th percentile wear curves.
+        </li>
+        <li>
+            <strong>Safety Car Probability (Cox Hazard Model)</strong><br>
+            Estimates the likelihood of a caution window in upcoming laps.
+        </li>
+        <li>
+            <strong>Damage Detection (Anomaly Detection)</strong><br>
+            Flags tire, aero, or mechanical issues using lap time spikes, sector drops, and speed loss.
+        </li>
+        <li>
+            <strong>Position-Aware Strategy Layer</strong><br>
+            Adjusts recommendations based on race context:
+            <ul>
+                <li>Defensive cover when threatened from behind</li>
+                <li>Hold position in pack racing</li>
+                <li>Optimal stint extension in clean air</li>
+            </ul>
+        </li>
+        <li>
+            <strong>Monte Carlo Race Simulation</strong><br>
+            Runs 5,000 simulated futures per decision to handle uncertainty and race chaos.
+        </li>
+        <li>
+            <strong>51-Feature Data Pipeline</strong><br>
+            Merges and validates weather, telemetry, and race context into a clean per-lap feature set.
+        </li>
+        <li>
+            <strong>Parallel Processing Engine</strong><br>
+            Multi-core execution gives a 4-8x speedup, keeping recommendations fast.
+        </li>
+    </ol>
+    
+    <div class="info-box">
+        <p><strong>Output:</strong> pit lap, strategy type, confidence range, delivered in under <strong>5 seconds</strong>.</p>
+        <p><strong>Validation:</strong> 59 real pit decisions across 21 vehicles in Race 2.</p>
+        <p><strong>Result:</strong> <strong>50% agreement within 2 laps, Grade B.</strong></p>
+    </div>
+</div>
+
+<div class="section">
+    <h2>🛠️ How We Built It</h2>
+    
+    <h3>Datasets (Toyota GR Cup, Race 1 and Race 2):</h3>
+    <ul>
+        <li><code>vir_lap_time_R1.csv</code>, <code>vir_lap_time_R2.csv</code></li>
+        <li><code>23_AnalysisEnduranceWithSections_Race 2_Anonymized.csv</code></li>
+        <li><code>26_Weather_Race 2_Anonymized.csv</code></li>
+        <li><code>03_Results GR Cup Race 2 Official_Anonymized.csv</code></li>
+    </ul>
+    
+    <h3>Pipeline</h3>
+    
+    <h4>1. Cleaning</h4>
+    <ul>
+        <li>Removed invalid lap numbers (sentinel value 32768)</li>
+        <li>Filtered out of range values</li>
+        <li>Standardized schema across files</li>
+        <li>Removed <strong>16-21% of rows</strong> for data quality</li>
+    </ul>
+    
+    <h4>2. Feature Engineering</h4>
+    <p>Built <strong>51 features per lap</strong>, including:</p>
+    <ul>
+        <li><strong>Weather:</strong> track temp, air temp, humidity, wind speed, rain intensity</li>
+        <li><strong>Telemetry:</strong> sector times, top speed, tire age, stint length</li>
+        <li><strong>Race context:</strong> position, gaps to leader, gaps ahead and behind, flag states</li>
+    </ul>
+    
+    <h4>3. Validation Setup</h4>
+    <ul>
+        <li>Built clean lap baselines (laps 3-8)</li>
+        <li>Added missing data flags and safe fallbacks</li>
+    </ul>
+    
+    <h3>Models</h3>
+    <div class="tech-grid">
+        <div class="tech-card">
+            <strong>XGBoost</strong><br>
+            776 KB<br>
+            10,000+ laps
+        </div>
+        <div class="tech-card">
+            <strong>Cox Hazard</strong><br>
+            6.8 KB<br>
+            Safety car risk
+        </div>
+        <div class="tech-card">
+            <strong>Damage Detector</strong><br>
+            Python<br>
+            Anomaly detection
+        </div>
+        <div class="tech-card">
+            <strong>Monte Carlo</strong><br>
+            5K-10K sims<br>
+            Variance reduction
+        </div>
+    </div>
+    
+    <h3>System</h3>
+    <ul>
+        <li>Python 3.9+, NumPy, Pandas, scikit-learn, XGBoost, lifelines</li>
+        <li>Monte Carlo with variance reduction (antithetic variates) for tighter confidence intervals</li>
+        <li>Flask dashboard + CLI API</li>
+        <li>MIT licensed GitHub repo (122 files)</li>
+    </ul>
+</div>
+
+<div class="section">
+    <h2>🚧 Challenges We Ran Into</h2>
+    
+    <ol>
+        <li>
+            <strong>Messy multi-file integration</strong><br>
+            Vehicle IDs did not align across datasets. Sector data used <code>NUMBER</code> while lap data used <code>vehicle_id</code>. We built fuzzy matching to unify cars across files.
+        </li>
+        <li>
+            <strong>Missing telemetry</strong><br>
+            Roughly 15-20% of laps had gaps. We added imputation flags and fallbacks to keep predictions stable.
+        </li>
+        <li>
+            <strong>Real-time speed</strong><br>
+            Early Monte Carlo runs took ~45 seconds. Multi-core parallelization plus convergence checks brought it under 5 seconds.
+        </li>
+        <li>
+            <strong>Damage vs real strategy</strong><br>
+            About 40% of Race 2 pits were forced by damage. Without detection, the system would recommend strategic pits for broken cars. The damage module fixes that.
+        </li>
+        <li>
+            <strong>Comparing AI to humans fairly</strong><br>
+            Both AI and crews can be "right" for different reasons. We used a 2-lap tolerance window to measure agreement.
+        </li>
+    </ol>
+</div>
+
+<div class="section">
+    <h2>🏆 Accomplishments We Are Proud Of</h2>
+    
+    <ul>
+        <li><strong>50% expert agreement</strong> in real Race 2 decisions, within 2 laps. Grade B benchmark for a first version.</li>
+        <li><strong>Position-aware reasoning</strong> in 30 out of 59 calls (50.8%), not just lap time chasing.</li>
+        <li><strong>Production-ready build</strong> with full repo, tests, and deployment path.</li>
+        <li><strong>Real validation</strong> against actual pit crews, not only simulation.</li>
+        <li><strong>Seven integrated models</strong> instead of a single predictor.</li>
+        <li><strong>Measured advantage</strong> of <strong>7.5 seconds saved per vehicle</strong>, totaling ~157.5 seconds fleet-wide, worth 2-3 positions in GR Cup.</li>
+    </ul>
+</div>
+
+<div class="section">
+    <h2>📚 What We Learned</h2>
+    
+    <ol>
+        <li>
+            <strong>Uncertainty beats a single number.</strong><br>
+            Quantile wear prediction gives a realistic risk band, which is what engineers need on the wall.
+        </li>
+        <li>
+            <strong>Position matters more than pure pace in sprint racing.</strong><br>
+            Sometimes you cover the car behind even if it costs lap time. The strategy layer captures that.
+        </li>
+        <li>
+            <strong>Cleaning is half the project.</strong><br>
+            Fixing invalid laps, missing sectors, and schema mismatches took longer than model training.
+        </li>
+        <li>
+            <strong>Crew agreement is the real metric.</strong><br>
+            Matching humans within tolerance is a better KPI than theoretical lap time gains.
+        </li>
+        <li>
+            <strong>Damage detection is mandatory.</strong><br>
+            Strategy without health awareness is fantasy. Race 2 proved it.
+        </li>
+    </ol>
+</div>
+
+<div class="section">
+    <h2>🚀 What Is Next</h2>
+    
+    <h3>Near term (Grade B to Grade A)</h3>
+    <ul>
+        <li>Train damage detection on more races and sector history</li>
+        <li>Track-specific tuning for different circuits</li>
+        <li>Plug into live telemetry instead of post-race CSVs</li>
+    </ul>
+    
+    <h3>Mid term</h3>
+    <ul>
+        <li>Multi-stint planning instead of only next pit</li>
+        <li>Real-time iPad-friendly pit wall dashboard</li>
+        <li>Driver feedback loop for tire feel and grip reports</li>
+    </ul>
+    
+    <h3>Long term</h3>
+    <ul>
+        <li>Reinforcement learning for decision policy training</li>
+        <li>Full field simulation with strategic interactions</li>
+        <li>Expand to IMSA, WEC, and open-wheel series</li>
+    </ul>
+    
+    <div class="highlight-box">
+        <p style="font-size: 1.2em;"><strong>Goal:</strong> an AI copilot Toyota engineers can trust at the track.</p>
+    </div>
+</div>
+
+<div class="section">
+    <h2>💻 Built With</h2>
+    <p>
+        Python 3.9+, XGBoost, lifelines, NumPy, Pandas, scikit-learn, Flask, multiprocessing, GitHub.
+    </p>
+    
+    <div style="text-align: center; margin-top: 2rem;">
+        <p style="font-size: 1.1em;"><strong>Category:</strong> Real-Time Analytics</p>
+        <p style="font-size: 1.1em; margin-top: 0.5rem;">
+            <strong>Repository:</strong> 
+            <a href="https://github.com/Arnie016/racing-f1-hackthon" target="_blank" style="color: var(--primary);">
+                https://github.com/Arnie016/racing-f1-hackthon
+            </a>
+        </p>
+        <p style="font-size: 1.1em; margin-top: 0.5rem;"><strong>Status:</strong> Production Ready, Grade B, 50% Expert Agreement</p>
+    </div>
+</div>
+
+{% endblock %}
+

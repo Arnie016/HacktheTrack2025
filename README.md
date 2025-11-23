@@ -209,3 +209,4 @@ Built for the **Toyota GR Cup AI Hackathon**
 **Goal:** Create an AI copilot that race engineers can trust at the track.
 
 **Status:** Production-ready, Grade B, 50% expert agreement
+# Deployment ready

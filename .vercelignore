@@ -1,0 +1,63 @@
+# Large/unnecessary files for deployment
+notebooks/
+scripts/
+Race 1/
+Race 2/
+reports/
+modal_clean/
+
+# Git
+.git/
+.gitignore
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+.pytest_cache/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Temporary
+*.tmp
+temp/
+tmp/
+
+# Documentation (heavy)
+docs/MODAL_*.md
+docs/PARALLEL_PROGRESS.md
+
+# Old validation scripts
+validate_race1_improvements.py
+validate_race2_improved.py
+validate_race2_improved_full.py
+validate_race2_heavy_simulation.py
+check_*.py
+compare_*.py
+explain_*.py
+generate_submission.py
+show_*.py
+run_baseline_*.py
+grcup_modal.py
+prepare_modal_upload.py
+
+# Keep only essential
+!webapp.py
+!requirements.txt
+!vercel.json
+!templates_webapp/
+!src/
+!models/
+!data/
+

@@ -561,6 +561,9 @@ def get_validation_results():
         return jsonify({"error": str(e)}), 500
 
 
+# For Vercel serverless deployment
+app_handler = app
+
 if __name__ == "__main__":
     print("\n" + "="*70)
     print("🏎️  AI Pit Strategy Optimizer - Comprehensive Web Application")

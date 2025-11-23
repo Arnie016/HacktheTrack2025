@@ -1,9 +1,13 @@
 {
   "version": 2,
+  "name": "ai-pit-strategy",
   "builds": [
     {
       "src": "webapp.py",
-      "use": "@vercel/python"
+      "use": "@vercel/python",
+      "config": {
+        "maxLambdaSize": "50mb"
+      }
     }
   ],
   "routes": [
@@ -14,8 +18,13 @@
   ],
   "env": {
     "FLASK_ENV": "production",
-    "USE_VARIANCE_REDUCTION": "1",
-    "MC_BASE_SCENARIOS": "500"
+    "MC_BASE_SCENARIOS": "250",
+    "USE_VARIANCE_REDUCTION": "1"
+  },
+  "functions": {
+    "webapp.py": {
+      "memory": 512,
+      "maxDuration": 10
+    }
   }
 }
-

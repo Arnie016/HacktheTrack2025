@@ -1,16 +1,27 @@
-# Large/unnecessary files for deployment
+# MINIMAL DEPLOYMENT - UI Only
+
+# Exclude everything heavy
 notebooks/
 scripts/
-Race 1/
-Race 2/
 reports/
 modal_clean/
+docs/
+
+# Old data folders
+Race 1/
+Race 2/
+
+# Keep only minimal data for demo
+data/race1/vir_lap_end_R1.csv
+data/race1/vir_lap_start_R1.csv
+data/race2/vir_lap_end_R2.csv
+data/race2/vir_lap_start_R2.csv
 
 # Git
 .git/
 .gitignore
 
-# Python
+# Python cache
 __pycache__/
 *.pyc
 *.pyo
@@ -29,20 +40,8 @@ Thumbs.db
 # Logs
 *.log
 
-# Temporary
-*.tmp
-temp/
-tmp/
-
-# Documentation (heavy)
-docs/MODAL_*.md
-docs/PARALLEL_PROGRESS.md
-
-# Old validation scripts
-validate_race1_improvements.py
-validate_race2_improved.py
-validate_race2_improved_full.py
-validate_race2_heavy_simulation.py
+# Old validation scripts (not needed for UI)
+validate_*.py
 check_*.py
 compare_*.py
 explain_*.py
@@ -51,13 +50,21 @@ show_*.py
 run_baseline_*.py
 grcup_modal.py
 prepare_modal_upload.py
+app.py
 
-# Keep only essential
-!webapp.py
-!requirements.txt
-!vercel.json
-!templates_webapp/
-!src/
-!models/
-!data/
+# Documentation markdown (except README)
+ORGANIZATION_COMPLETE.md
+DEPLOYMENT_COMPLETE.md
+VERCEL_DEPLOY.md
+DEPLOY_COMMANDS.sh
+CONTRIBUTING.md
+Makefile
 
+# Keep only essentials:
+# - webapp.py ✅
+# - templates_webapp/ ✅
+# - src/grcup/ ✅
+# - models/ (small, 776 KB) ✅
+# - data/ (2 small CSVs for demo) ✅
+# - requirements.txt ✅
+# - README.md ✅

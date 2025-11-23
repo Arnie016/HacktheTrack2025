@@ -49,6 +49,24 @@ open http://localhost:5002
 - 📈 **Results** - Validation charts and performance breakdown
 - ℹ️  **About** - Full project story and technical details
 
+### Troubleshooting
+
+**Port already in use?**
+```bash
+# Kill existing server
+pkill -f "python3 webapp.py"
+
+# Or use a different port
+python3 webapp.py  # edit webapp.py line: app.run(port=5003)
+```
+
+**Missing dependencies?**
+```bash
+pip install flask numpy pandas xgboost lifelines scikit-learn
+```
+
+**To stop the server:** Press `Ctrl+C` in the terminal
+
 ---
 
 ## 🧠 How It Works

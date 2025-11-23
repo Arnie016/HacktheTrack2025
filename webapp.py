@@ -91,10 +91,10 @@ def get_dataset_summary(race):
     """Get summary statistics for Race 1 or Race 2"""
     try:
         if race == "race1":
-            file_path = DATA_DIR / "Race 1" / "vir_lap_time_R1.csv"
+            file_path = DATA_DIR / "data" / "race1" / "vir_lap_time_R1.csv"
         elif race == "race2":
             # Use telemetry features file for Race 2 (has processed lap data)
-            file_path = DATA_DIR / "Race 2" / "R2_telemetry_features.csv"
+            file_path = DATA_DIR / "data" / "race2" / "R2_telemetry_features.csv"
         else:
             return jsonify({"error": "Invalid race"}), 400
         

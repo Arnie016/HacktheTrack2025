@@ -36,10 +36,13 @@ env/
 .ipynb_checkpoints
 *.ipynb
 
-# Data files (large)
-*.csv
-*.CSV
+# Data files (large) - but include organized data/ folder
+Race 1/
+Race 2/
 *.parquet
+
+# Include data/ folder CSVs (organized)
+!data/**/*.csv
 
 # Model files (optional - include if <100MB)
 # models/*.pkl

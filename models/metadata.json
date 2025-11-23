@@ -1,0 +1,19 @@
+{
+  "event": "R1",
+  "timestamp_utc": "2025-11-22T06:33:40Z",
+  "git_sha": "unknown",
+  "package_versions": {},
+  "rng_seed": 42,
+  "models": [
+    "wear_quantile_xgb.pkl",
+    "cox_hazard.pkl",
+    "overtake.pkl",
+    "kalman_config.json"
+  ],
+  "training_samples": {
+    "wear": 401,
+    "pace": 988,
+    "hazard": 20,
+    "overtake": 390
+  }
+}

@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GR Cup Strategy Engine Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0a0e27;
+            color: #e0e0e0;
+            line-height: 1.6;
+        }
+        .container { max-width: 1400px; margin: 0 auto; padding: 20px; }
+        header {
+            background: linear-gradient(135deg, #1e3a5f 0%, #2d4a75 100%);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        }
+        h1 { color: #fff; font-size: 28px; margin-bottom: 5px; }
+        .subtitle { color: #a0c4ff; font-size: 14px; }
+        .controls {
+            background: #1a1f3a;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        select {
+            background: #2a2f4a;
+            color: #fff;
+            border: 1px solid #3a3f5a;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        select:hover { border-color: #4a5f7a; }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        .card {
+            background: #1a1f3a;
+            border: 1px solid #2a2f4a;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        .card h3 {
+            color: #4a9eff;
+            font-size: 16px;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #2a2f4a;
+            padding-bottom: 8px;
+        }
+        .metric {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        .metric-label { color: #a0a0a0; font-size: 13px; }
+        .metric-value {
+            color: #fff;
+            font-size: 18px;
+            font-weight: 600;
+        }
+        .metric-value.good { color: #4ade80; }
+        .metric-value.warning { color: #fbbf24; }
+        .metric-value.bad { color: #f87171; }
+        .chart-container {
+            background: #1a1f3a;
+            border: 1px solid #2a2f4a;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .chart-container h3 {
+            color: #4a9eff;
+            margin-bottom: 15px;
+        }
+        .coverage-bar {
+            background: #2a2f4a;
+            height: 24px;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 5px;
+        }
+        .coverage-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #3b82f6, #60a5fa);
+            transition: width 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        .table-container {
+            background: #1a1f3a;
+            border: 1px solid #2a2f4a;
+            border-radius: 8px;
+            padding: 20px;
+            overflow-x: auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+        th {
+            background: #2a2f4a;
+            color: #4a9eff;
+            padding: 10px;
+            text-align: left;
+            font-weight: 600;
+        }
+        td {
+            padding: 8px 10px;
+            border-top: 1px solid #2a2f4a;
+            color: #d0d0d0;
+        }
+        tr:hover td { background: #22273a; }
+        .badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        .badge-success { background: #065f46; color: #6ee7b7; }
+        .badge-warning { background: #78350f; color: #fcd34d; }
+        .badge-danger { background: #7f1d1d; color: #fca5a5; }
+        .loading { text-align: center; padding: 40px; color: #666; }
+        .error { background: #7f1d1d; color: #fca5a5; padding: 15px; border-radius: 4px; margin: 10px 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🏎️ GR Cup Strategy Engine</h1>
+            <div class="subtitle">Real-time pit strategy optimization with conformal prediction</div>
+        </header>
+
+        <div class="controls">
+            <label style="color: #a0a0a0;">Scenario:</label>
+            <select id="scenarioSelect">
+                <option value="">Loading...</option>
+            </select>
+            <span id="status" style="color: #4ade80; font-size: 13px;"></span>
+        </div>
+
+        <div id="content">
+            <div class="loading">Select a scenario to view results...</div>
+        </div>
+    </div>
+
+    <script>
+        let currentScenario = null;
+        let coverageChart = null;
+        let bucketsChart = null;
+
+        // Load scenarios
+        async function loadScenarios() {
+            try {
+                const res = await fetch('/api/scenarios');
+                const scenarios = await res.json();
+                const select = document.getElementById('scenarioSelect');
+                select.innerHTML = '<option value="">Select scenario...</option>';
+                scenarios.forEach(s => {
+                    const opt = document.createElement('option');
+                    opt.value = s;
+                    opt.textContent = s.charAt(0).toUpperCase() + s.slice(1).replace('_', ' ');
+                    select.appendChild(opt);
+                });
+            } catch (err) {
+                console.error('Failed to load scenarios:', err);
+                document.getElementById('scenarioSelect').innerHTML = '<option value="">Error loading scenarios</option>';
+            }
+        }
+
+        // Load report
+        async function loadReport(scenario) {
+            if (!scenario) return;
+            currentScenario = scenario;
+            document.getElementById('status').textContent = 'Loading...';
+
+            try {
+                const [reportRes, cfRes] = await Promise.all([
+                    fetch(`/api/report/${scenario}`),
+                    fetch(`/api/counterfactuals/${scenario}`)
+                ]);
+
+                if (!reportRes.ok) throw new Error('Report not found');
+                const report = await reportRes.json();
+                const counterfactuals = cfRes.ok ? await cfRes.json() : null;
+
+                renderDashboard(report, counterfactuals);
+                document.getElementById('status').textContent = '✓ Loaded';
+            } catch (err) {
+                document.getElementById('content').innerHTML = `
+                    <div class="error">Error loading report: ${err.message}</div>
+                `;
+                document.getElementById('status').textContent = '✗ Error';
+            }
+        }
+
+        function renderDashboard(report, counterfactuals) {
+            const { wear_model_metrics, summary, walkforward, baseline_comparisons, coverage_buckets } = report;
+
+            const html = `
+                <div class="grid">
+                    <div class="card">
+                        <h3>Wear Model Performance</h3>
+                        <div class="metric">
+                            <span class="metric-label">R² Score</span>
+                            <span class="metric-value ${wear_model_metrics.R2 > 0.3 ? 'good' : wear_model_metrics.R2 > 0.1 ? 'warning' : 'bad'}">
+                                ${(wear_model_metrics.R2 * 100).toFixed(1)}%
+                            </span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">MAE</span>
+                            <span class="metric-value">${wear_model_metrics.MAE.toFixed(1)}s</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">RMSE</span>
+                            <span class="metric-value">${wear_model_metrics.RMSE.toFixed(1)}s</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">Samples</span>
+                            <span class="metric-value">${wear_model_metrics.n_samples}</span>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3>Calibration</h3>
+                        <div class="metric">
+                            <span class="metric-label">Coverage (90% target)</span>
+                            <span class="metric-value ${wear_model_metrics.quantile_coverage_90 >= 0.90 ? 'good' : 'warning'}">
+                                ${(wear_model_metrics.quantile_coverage_90 * 100).toFixed(1)}%
+                            </span>
+                        </div>
+                        <div class="coverage-bar">
+                            <div class="coverage-fill" style="width: ${wear_model_metrics.quantile_coverage_90 * 100}%">
+                                ${(wear_model_metrics.quantile_coverage_90 * 100).toFixed(1)}%
+                            </div>
+                        </div>
+                        <div class="metric" style="margin-top: 15px;">
+                            <span class="metric-label">Status</span>
+                            <span class="metric-value ${wear_model_metrics.calibrated ? 'good' : 'warning'}">
+                                ${wear_model_metrics.calibrated ? '✓ Calibrated' : '⚠ Needs tuning'}
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3>Strategy Performance</h3>
+                        <div class="metric">
+                            <span class="metric-label">Time Saved (vs fixed stint)</span>
+                            <span class="metric-value good">
+                                ${baseline_comparisons.engine_advantage.vs_fixed_stint.time_saved_s.toFixed(1)}s
+                            </span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">95% CI</span>
+                            <span class="metric-value">
+                                [${baseline_comparisons.engine_advantage.vs_fixed_stint.ci95[0].toFixed(1)}, 
+                                ${baseline_comparisons.engine_advantage.vs_fixed_stint.ci95[1].toFixed(1)}]s
+                            </span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">Recommendations</span>
+                            <span class="metric-value">${walkforward.total_recommendations}</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">Mean Confidence</span>
+                            <span class="metric-value">${(walkforward.mean_confidence * 100).toFixed(1)}%</span>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3>Coverage by Buckets</h3>
+                        <div id="coverageBuckets"></div>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <h3>Coverage by Tire Age</h3>
+                    <canvas id="ageChart" style="max-height: 300px;"></canvas>
+                </div>
+
+                <div class="chart-container">
+                    <h3>Coverage by Temperature</h3>
+                    <canvas id="tempChart" style="max-height: 300px;"></canvas>
+                </div>
+
+                ${counterfactuals && counterfactuals.examples ? `
+                    <div class="table-container">
+                        <h3 style="color: #4a9eff; margin-bottom: 15px;">Top Counterfactual Examples</h3>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Vehicle</th>
+                                    <th>Lap</th>
+                                    <th>Recommended Pit</th>
+                                    <th>Expected Gain</th>
+                                    <th>Actual Position</th>
+                                    <th>Confidence</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${counterfactuals.examples.slice(0, 10).map(cf => `
+                                    <tr>
+                                        <td>${cf.vehicle_id}</td>
+                                        <td>${cf.lap}</td>
+                                        <td>Lap ${cf.recommended_pit}</td>
+                                        <td class="metric-value good">${cf.expected_gain.toFixed(1)}s</td>
+                                        <td>P${cf.actual_position}</td>
+                                        <td>
+                                            <span class="badge ${cf.confidence > 0.8 ? 'badge-success' : cf.confidence > 0.5 ? 'badge-warning' : 'badge-danger'}">
+                                                ${(cf.confidence * 100).toFixed(0)}%
+                                            </span>
+                                        </td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                ` : ''}
+            `;
+
+            document.getElementById('content').innerHTML = html;
+
+            // Render charts
+            renderCharts(coverage_buckets || {});
+        }
+
+        let ageChart = null;
+        let tempChart = null;
+
+        function renderCharts(buckets) {
+            // Age buckets chart
+            const ageCtx = document.getElementById('ageChart');
+            if (ageCtx) {
+                if (ageChart) ageChart.destroy();
+                ageChart = new Chart(ageCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: Object.keys(buckets).filter(k => k.startsWith('age_')).map(k => k.replace('age_', 'Age ').replace('_', '-')),
+                        datasets: [{
+                            label: 'Coverage %',
+                            data: Object.keys(buckets).filter(k => k.startsWith('age_')).map(k => buckets[k] * 100),
+                            backgroundColor: '#3b82f6',
+                            borderColor: '#60a5fa',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                max: 100,
+                                ticks: { color: '#a0a0a0' },
+                                grid: { color: '#2a2f4a' }
+                            },
+                            x: {
+                                ticks: { color: '#a0a0a0' },
+                                grid: { color: '#2a2f4a' }
+                            }
+                        },
+                        plugins: {
+                            legend: { display: false },
+                            tooltip: {
+                                backgroundColor: '#1a1f3a',
+                                titleColor: '#fff',
+                                bodyColor: '#e0e0e0',
+                                borderColor: '#2a2f4a',
+                                borderWidth: 1
+                            }
+                        }
+                    }
+                });
+            }
+
+            // Temp buckets chart
+            const tempCtx = document.getElementById('tempChart');
+            if (tempCtx) {
+                if (tempChart) tempChart.destroy();
+                tempChart = new Chart(tempCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: Object.keys(buckets).filter(k => k.startsWith('temp_')).map(k => k.replace('temp_', '').charAt(0).toUpperCase() + k.replace('temp_', '').slice(1)),
+                        datasets: [{
+                            label: 'Coverage %',
+                            data: Object.keys(buckets).filter(k => k.startsWith('temp_')).map(k => buckets[k] * 100),
+                            backgroundColor: '#10b981',
+                            borderColor: '#34d399',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                max: 100,
+                                ticks: { color: '#a0a0a0' },
+                                grid: { color: '#2a2f4a' }
+                            },
+                            x: {
+                                ticks: { color: '#a0a0a0' },
+                                grid: { color: '#2a2f4a' }
+                            }
+                        },
+                        plugins: {
+                            legend: { display: false },
+                            tooltip: {
+                                backgroundColor: '#1a1f3a',
+                                titleColor: '#fff',
+                                bodyColor: '#e0e0e0',
+                                borderColor: '#2a2f4a',
+                                borderWidth: 1
+                            }
+                        }
+                    }
+                });
+            }
+
+            // Coverage buckets list
+            const bucketsEl = document.getElementById('coverageBuckets');
+            if (bucketsEl) {
+                bucketsEl.innerHTML = Object.entries(buckets).map(([key, value]) => {
+                    const label = key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+                    const pct = (value * 100).toFixed(1);
+                    const status = value >= 0.88 ? 'good' : value >= 0.80 ? 'warning' : 'bad';
+                    return `
+                        <div class="metric" style="margin-bottom: 8px;">
+                            <span class="metric-label">${label}</span>
+                            <span class="metric-value ${status}">${pct}%</span>
+                        </div>
+                    `;
+                }).join('');
+            }
+        }
+
+        // Event listeners
+        document.getElementById('scenarioSelect').addEventListener('change', (e) => {
+            loadReport(e.target.value);
+        });
+
+        // Initialize
+        loadScenarios();
+    </script>
+</body>
+</html>
+

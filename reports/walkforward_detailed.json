@@ -1,0 +1,1438 @@
+{
+  "recommendations": [
+    {
+      "vehicle_id": "GR86-002-2",
+      "lap": 1,
+      "recommended_pit_lap": 5,
+      "recommended_window": [
+        4,
+        6
+      ],
+      "expected_gain": 169.20320375701885,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-006-7",
+      "lap": 1,
+      "recommended_pit_lap": 5,
+      "recommended_window": [
+        4,
+        6
+      ],
+      "expected_gain": 169.20320375701885,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-013-80",
+      "lap": 1,
+      "recommended_pit_lap": 5,
+      "recommended_window": [
+        4,
+        6
+      ],
+      "expected_gain": 169.20320375701885,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-015-31",
+      "lap": 1,
+      "recommended_pit_lap": 5,
+      "recommended_window": [
+        4,
+        6
+      ],
+      "expected_gain": 169.20320375701885,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-016-55",
+      "lap": 1,
+      "recommended_pit_lap": 5,
+      "recommended_window": [
+        4,
+        6
+      ],
+      "expected_gain": 169.20320375701885,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-022-13",
+      "lap": 1,
+      "recommended_pit_lap": 5,
+      "recommended_window": [
+        4,
+        6
+      ],
+      "expected_gain": 169.20320375701885,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-024-41",
+      "lap": 1,
+      "recommended_pit_lap": 5,
+      "recommended_window": [
+        4,
+        6
+      ],
+      "expected_gain": 169.20320375701885,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-026-72",
+      "lap": 1,
+      "recommended_pit_lap": 5,
+      "recommended_window": [
+        4,
+        6
+      ],
+      "expected_gain": 169.20320375701885,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-028-89",
+      "lap": 1,
+      "recommended_pit_lap": 5,
+      "recommended_window": [
+        4,
+        6
+      ],
+      "expected_gain": 169.20320375701885,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-032-15",
+      "lap": 1,
+      "recommended_pit_lap": 5,
+      "recommended_window": [
+        4,
+        6
+      ],
+      "expected_gain": 169.20320375701885,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-033-46",
+      "lap": 1,
+      "recommended_pit_lap": 5,
+      "recommended_window": [
+        4,
+        6
+      ],
+      "expected_gain": 169.20320375701885,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-036-98",
+      "lap": 1,
+      "recommended_pit_lap": 5,
+      "recommended_window": [
+        4,
+        6
+      ],
+      "expected_gain": 169.20320375701885,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-038-93",
+      "lap": 1,
+      "recommended_pit_lap": 5,
+      "recommended_window": [
+        4,
+        6
+      ],
+      "expected_gain": 169.20320375701885,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-040-3",
+      "lap": 1,
+      "recommended_pit_lap": 5,
+      "recommended_window": [
+        4,
+        6
+      ],
+      "expected_gain": 169.20320375701885,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-047-21",
+      "lap": 1,
+      "recommended_pit_lap": 5,
+      "recommended_window": [
+        4,
+        6
+      ],
+      "expected_gain": 169.20320375701885,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-049-88",
+      "lap": 1,
+      "recommended_pit_lap": 5,
+      "recommended_window": [
+        4,
+        6
+      ],
+      "expected_gain": 169.20320375701885,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-049-88",
+      "lap": 1,
+      "recommended_pit_lap": 5,
+      "recommended_window": [
+        4,
+        6
+      ],
+      "expected_gain": 171.06801514612562,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-051-71",
+      "lap": 1,
+      "recommended_pit_lap": 5,
+      "recommended_window": [
+        4,
+        6
+      ],
+      "expected_gain": 169.20320375701885,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-061-51",
+      "lap": 1,
+      "recommended_pit_lap": 5,
+      "recommended_window": [
+        4,
+        6
+      ],
+      "expected_gain": 169.20320375701885,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-062-012",
+      "lap": 1,
+      "recommended_pit_lap": 5,
+      "recommended_window": [
+        4,
+        6
+      ],
+      "expected_gain": 169.20320375701885,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-062-012",
+      "lap": 1,
+      "recommended_pit_lap": 5,
+      "recommended_window": [
+        4,
+        6
+      ],
+      "expected_gain": 171.06801514612562,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-062-012",
+      "lap": 1,
+      "recommended_pit_lap": 5,
+      "recommended_window": [
+        4,
+        6
+      ],
+      "expected_gain": 172.9328265352351,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-063-113",
+      "lap": 1,
+      "recommended_pit_lap": 5,
+      "recommended_window": [
+        4,
+        6
+      ],
+      "expected_gain": 169.20320375701885,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-065-5",
+      "lap": 1,
+      "recommended_pit_lap": 5,
+      "recommended_window": [
+        4,
+        6
+      ],
+      "expected_gain": 169.20320375701885,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-002-2",
+      "lap": 6,
+      "recommended_pit_lap": 10,
+      "recommended_window": [
+        9,
+        11
+      ],
+      "expected_gain": 13.592820572615437,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-006-7",
+      "lap": 6,
+      "recommended_pit_lap": 10,
+      "recommended_window": [
+        9,
+        11
+      ],
+      "expected_gain": 13.592820572615437,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-013-80",
+      "lap": 6,
+      "recommended_pit_lap": 10,
+      "recommended_window": [
+        9,
+        11
+      ],
+      "expected_gain": 13.592820572615437,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-015-31",
+      "lap": 6,
+      "recommended_pit_lap": 10,
+      "recommended_window": [
+        9,
+        11
+      ],
+      "expected_gain": 13.592820572615437,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-016-55",
+      "lap": 6,
+      "recommended_pit_lap": 10,
+      "recommended_window": [
+        9,
+        11
+      ],
+      "expected_gain": 13.592820572615437,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-022-13",
+      "lap": 6,
+      "recommended_pit_lap": 10,
+      "recommended_window": [
+        9,
+        11
+      ],
+      "expected_gain": 13.592820572615437,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-022-13",
+      "lap": 6,
+      "recommended_pit_lap": 10,
+      "recommended_window": [
+        9,
+        11
+      ],
+      "expected_gain": 15.236921927664298,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-022-13",
+      "lap": 6,
+      "recommended_pit_lap": 10,
+      "recommended_window": [
+        9,
+        11
+      ],
+      "expected_gain": 16.881023282714523,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-022-13",
+      "lap": 6,
+      "recommended_pit_lap": 10,
+      "recommended_window": [
+        9,
+        11
+      ],
+      "expected_gain": 18.525124637765202,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-024-41",
+      "lap": 6,
+      "recommended_pit_lap": 10,
+      "recommended_window": [
+        9,
+        11
+      ],
+      "expected_gain": 13.592820572615437,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-026-72",
+      "lap": 6,
+      "recommended_pit_lap": 10,
+      "recommended_window": [
+        9,
+        11
+      ],
+      "expected_gain": 13.592820572615437,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-028-89",
+      "lap": 6,
+      "recommended_pit_lap": 10,
+      "recommended_window": [
+        9,
+        11
+      ],
+      "expected_gain": 13.592820572615437,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-032-15",
+      "lap": 6,
+      "recommended_pit_lap": 10,
+      "recommended_window": [
+        9,
+        11
+      ],
+      "expected_gain": 13.592820572615437,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-033-46",
+      "lap": 6,
+      "recommended_pit_lap": 10,
+      "recommended_window": [
+        9,
+        11
+      ],
+      "expected_gain": 13.592820572615437,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-036-98",
+      "lap": 6,
+      "recommended_pit_lap": 10,
+      "recommended_window": [
+        9,
+        11
+      ],
+      "expected_gain": 13.592820572615437,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-036-98",
+      "lap": 6,
+      "recommended_pit_lap": 10,
+      "recommended_window": [
+        9,
+        11
+      ],
+      "expected_gain": 15.236921927664298,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-036-98",
+      "lap": 6,
+      "recommended_pit_lap": 10,
+      "recommended_window": [
+        9,
+        11
+      ],
+      "expected_gain": 16.881023282714523,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-036-98",
+      "lap": 6,
+      "recommended_pit_lap": 10,
+      "recommended_window": [
+        9,
+        11
+      ],
+      "expected_gain": 18.525124637765202,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-038-93",
+      "lap": 6,
+      "recommended_pit_lap": 10,
+      "recommended_window": [
+        9,
+        11
+      ],
+      "expected_gain": 13.592820572615437,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-040-3",
+      "lap": 6,
+      "recommended_pit_lap": 10,
+      "recommended_window": [
+        9,
+        11
+      ],
+      "expected_gain": 13.592820572615437,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-047-21",
+      "lap": 6,
+      "recommended_pit_lap": 10,
+      "recommended_window": [
+        9,
+        11
+      ],
+      "expected_gain": 13.592820572615437,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-049-88",
+      "lap": 6,
+      "recommended_pit_lap": 10,
+      "recommended_window": [
+        9,
+        11
+      ],
+      "expected_gain": 15.236921927664298,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-051-71",
+      "lap": 6,
+      "recommended_pit_lap": 10,
+      "recommended_window": [
+        9,
+        11
+      ],
+      "expected_gain": 13.592820572615437,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-061-51",
+      "lap": 6,
+      "recommended_pit_lap": 10,
+      "recommended_window": [
+        9,
+        11
+      ],
+      "expected_gain": 13.592820572615437,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-061-51",
+      "lap": 6,
+      "recommended_pit_lap": 10,
+      "recommended_window": [
+        9,
+        11
+      ],
+      "expected_gain": 15.236921927664298,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-061-51",
+      "lap": 6,
+      "recommended_pit_lap": 10,
+      "recommended_window": [
+        9,
+        11
+      ],
+      "expected_gain": 16.881023282714523,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-062-012",
+      "lap": 6,
+      "recommended_pit_lap": 10,
+      "recommended_window": [
+        9,
+        11
+      ],
+      "expected_gain": 16.881023282714523,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-063-113",
+      "lap": 6,
+      "recommended_pit_lap": 10,
+      "recommended_window": [
+        9,
+        11
+      ],
+      "expected_gain": 13.592820572615437,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-065-5",
+      "lap": 6,
+      "recommended_pit_lap": 10,
+      "recommended_window": [
+        9,
+        11
+      ],
+      "expected_gain": 13.592820572615437,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-002-2",
+      "lap": 11,
+      "recommended_pit_lap": 14,
+      "recommended_window": [
+        13,
+        15
+      ],
+      "expected_gain": 144.35004366379894,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-006-7",
+      "lap": 11,
+      "recommended_pit_lap": 14,
+      "recommended_window": [
+        13,
+        15
+      ],
+      "expected_gain": 144.35004366379894,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-013-80",
+      "lap": 11,
+      "recommended_pit_lap": 14,
+      "recommended_window": [
+        13,
+        15
+      ],
+      "expected_gain": 144.35004366379894,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-015-31",
+      "lap": 11,
+      "recommended_pit_lap": 14,
+      "recommended_window": [
+        13,
+        15
+      ],
+      "expected_gain": 144.35004366379894,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-016-55",
+      "lap": 11,
+      "recommended_pit_lap": 14,
+      "recommended_window": [
+        13,
+        15
+      ],
+      "expected_gain": 144.35004366379894,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-022-13",
+      "lap": 11,
+      "recommended_pit_lap": 14,
+      "recommended_window": [
+        13,
+        15
+      ],
+      "expected_gain": 146.81648923171133,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-024-41",
+      "lap": 11,
+      "recommended_pit_lap": 14,
+      "recommended_window": [
+        13,
+        15
+      ],
+      "expected_gain": 144.35004366379894,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-026-72",
+      "lap": 11,
+      "recommended_pit_lap": 14,
+      "recommended_window": [
+        13,
+        15
+      ],
+      "expected_gain": 144.35004366379894,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-026-72",
+      "lap": 11,
+      "recommended_pit_lap": 14,
+      "recommended_window": [
+        13,
+        15
+      ],
+      "expected_gain": 145.17219218643595,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-026-72",
+      "lap": 11,
+      "recommended_pit_lap": 14,
+      "recommended_window": [
+        13,
+        15
+      ],
+      "expected_gain": 145.9943407090741,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-026-72",
+      "lap": 11,
+      "recommended_pit_lap": 14,
+      "recommended_window": [
+        13,
+        15
+      ],
+      "expected_gain": 146.81648923171133,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-028-89",
+      "lap": 11,
+      "recommended_pit_lap": 14,
+      "recommended_window": [
+        13,
+        15
+      ],
+      "expected_gain": 144.35004366379894,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-032-15",
+      "lap": 11,
+      "recommended_pit_lap": 14,
+      "recommended_window": [
+        13,
+        15
+      ],
+      "expected_gain": 144.35004366379894,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-033-46",
+      "lap": 11,
+      "recommended_pit_lap": 14,
+      "recommended_window": [
+        13,
+        15
+      ],
+      "expected_gain": 144.35004366379894,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-033-46",
+      "lap": 11,
+      "recommended_pit_lap": 14,
+      "recommended_window": [
+        13,
+        15
+      ],
+      "expected_gain": 145.17219218643595,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-036-98",
+      "lap": 11,
+      "recommended_pit_lap": 14,
+      "recommended_window": [
+        13,
+        15
+      ],
+      "expected_gain": 146.81648923171133,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-038-93",
+      "lap": 11,
+      "recommended_pit_lap": 14,
+      "recommended_window": [
+        13,
+        15
+      ],
+      "expected_gain": 144.35004366379894,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-038-93",
+      "lap": 11,
+      "recommended_pit_lap": 14,
+      "recommended_window": [
+        13,
+        15
+      ],
+      "expected_gain": 145.17219218643595,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-040-3",
+      "lap": 11,
+      "recommended_pit_lap": 14,
+      "recommended_window": [
+        13,
+        15
+      ],
+      "expected_gain": 144.35004366379894,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-047-21",
+      "lap": 11,
+      "recommended_pit_lap": 14,
+      "recommended_window": [
+        13,
+        15
+      ],
+      "expected_gain": 144.35004366379894,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-049-88",
+      "lap": 11,
+      "recommended_pit_lap": 14,
+      "recommended_window": [
+        13,
+        15
+      ],
+      "expected_gain": 145.17219218643595,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-051-71",
+      "lap": 11,
+      "recommended_pit_lap": 14,
+      "recommended_window": [
+        13,
+        15
+      ],
+      "expected_gain": 144.35004366379894,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-051-71",
+      "lap": 11,
+      "recommended_pit_lap": 14,
+      "recommended_window": [
+        13,
+        15
+      ],
+      "expected_gain": 145.17219218643595,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-061-51",
+      "lap": 11,
+      "recommended_pit_lap": 14,
+      "recommended_window": [
+        13,
+        15
+      ],
+      "expected_gain": 145.9943407090741,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-062-012",
+      "lap": 11,
+      "recommended_pit_lap": 14,
+      "recommended_window": [
+        13,
+        15
+      ],
+      "expected_gain": 145.9943407090741,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-062-012",
+      "lap": 11,
+      "recommended_pit_lap": 14,
+      "recommended_window": [
+        13,
+        15
+      ],
+      "expected_gain": 146.81648923171133,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-062-012",
+      "lap": 11,
+      "recommended_pit_lap": 14,
+      "recommended_window": [
+        13,
+        15
+      ],
+      "expected_gain": 147.6386377543488,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-063-113",
+      "lap": 11,
+      "recommended_pit_lap": 14,
+      "recommended_window": [
+        13,
+        15
+      ],
+      "expected_gain": 144.35004366379894,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-065-5",
+      "lap": 11,
+      "recommended_pit_lap": 14,
+      "recommended_window": [
+        13,
+        15
+      ],
+      "expected_gain": 144.35004366379894,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-002-2",
+      "lap": 16,
+      "recommended_pit_lap": 17,
+      "recommended_window": [
+        16,
+        18
+      ],
+      "expected_gain": -24.53191991640051,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-006-7",
+      "lap": 16,
+      "recommended_pit_lap": 17,
+      "recommended_window": [
+        16,
+        18
+      ],
+      "expected_gain": -24.53191991640051,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-013-80",
+      "lap": 16,
+      "recommended_pit_lap": 17,
+      "recommended_window": [
+        16,
+        18
+      ],
+      "expected_gain": -24.53191991640051,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-015-31",
+      "lap": 16,
+      "recommended_pit_lap": 17,
+      "recommended_window": [
+        16,
+        18
+      ],
+      "expected_gain": -24.53191991640051,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-016-55",
+      "lap": 16,
+      "recommended_pit_lap": 17,
+      "recommended_window": [
+        16,
+        18
+      ],
+      "expected_gain": -24.53191991640051,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-022-13",
+      "lap": 16,
+      "recommended_pit_lap": 17,
+      "recommended_window": [
+        16,
+        18
+      ],
+      "expected_gain": -21.99785288181829,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-024-41",
+      "lap": 16,
+      "recommended_pit_lap": 17,
+      "recommended_window": [
+        16,
+        18
+      ],
+      "expected_gain": -24.53191991640051,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-026-72",
+      "lap": 16,
+      "recommended_pit_lap": 17,
+      "recommended_window": [
+        16,
+        18
+      ],
+      "expected_gain": -21.99785288181829,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-028-89",
+      "lap": 16,
+      "recommended_pit_lap": 17,
+      "recommended_window": [
+        16,
+        18
+      ],
+      "expected_gain": -24.53191991640051,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-032-15",
+      "lap": 16,
+      "recommended_pit_lap": 17,
+      "recommended_window": [
+        16,
+        18
+      ],
+      "expected_gain": -24.53191991640051,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-033-46",
+      "lap": 16,
+      "recommended_pit_lap": 17,
+      "recommended_window": [
+        16,
+        18
+      ],
+      "expected_gain": -23.687230904873104,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-033-46",
+      "lap": 16,
+      "recommended_pit_lap": 17,
+      "recommended_window": [
+        16,
+        18
+      ],
+      "expected_gain": -22.842541893345697,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-036-98",
+      "lap": 16,
+      "recommended_pit_lap": 17,
+      "recommended_window": [
+        16,
+        18
+      ],
+      "expected_gain": -21.99785288181829,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-038-93",
+      "lap": 16,
+      "recommended_pit_lap": 17,
+      "recommended_window": [
+        16,
+        18
+      ],
+      "expected_gain": -23.687230904873104,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-040-3",
+      "lap": 16,
+      "recommended_pit_lap": 17,
+      "recommended_window": [
+        16,
+        18
+      ],
+      "expected_gain": -24.53191991640051,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-047-21",
+      "lap": 16,
+      "recommended_pit_lap": 17,
+      "recommended_window": [
+        16,
+        18
+      ],
+      "expected_gain": -24.53191991640051,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-049-88",
+      "lap": 16,
+      "recommended_pit_lap": 17,
+      "recommended_window": [
+        16,
+        18
+      ],
+      "expected_gain": -23.687230904873104,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-051-71",
+      "lap": 16,
+      "recommended_pit_lap": 17,
+      "recommended_window": [
+        16,
+        18
+      ],
+      "expected_gain": -23.687230904873104,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-061-51",
+      "lap": 16,
+      "recommended_pit_lap": 17,
+      "recommended_window": [
+        16,
+        18
+      ],
+      "expected_gain": -22.842541893345697,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-062-012",
+      "lap": 16,
+      "recommended_pit_lap": 17,
+      "recommended_window": [
+        16,
+        18
+      ],
+      "expected_gain": -21.153163870290882,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-063-113",
+      "lap": 16,
+      "recommended_pit_lap": 17,
+      "recommended_window": [
+        16,
+        18
+      ],
+      "expected_gain": -24.53191991640051,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-065-5",
+      "lap": 16,
+      "recommended_pit_lap": 17,
+      "recommended_window": [
+        16,
+        18
+      ],
+      "expected_gain": -24.53191991640051,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-002-2",
+      "lap": 21,
+      "recommended_pit_lap": 22,
+      "recommended_window": [
+        21,
+        23
+      ],
+      "expected_gain": -23.79754704835085,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-002-2",
+      "lap": 21,
+      "recommended_pit_lap": 22,
+      "recommended_window": [
+        21,
+        23
+      ],
+      "expected_gain": -23.555219447534398,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-006-7",
+      "lap": 21,
+      "recommended_pit_lap": 22,
+      "recommended_window": [
+        21,
+        23
+      ],
+      "expected_gain": -23.79754704835085,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-013-80",
+      "lap": 21,
+      "recommended_pit_lap": 22,
+      "recommended_window": [
+        21,
+        23
+      ],
+      "expected_gain": -23.79754704835085,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-013-80",
+      "lap": 21,
+      "recommended_pit_lap": 22,
+      "recommended_window": [
+        21,
+        23
+      ],
+      "expected_gain": -23.555219447534398,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-015-31",
+      "lap": 21,
+      "recommended_pit_lap": 22,
+      "recommended_window": [
+        21,
+        23
+      ],
+      "expected_gain": -23.79754704835085,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-016-55",
+      "lap": 21,
+      "recommended_pit_lap": 22,
+      "recommended_window": [
+        21,
+        23
+      ],
+      "expected_gain": -23.79754704835085,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-022-13",
+      "lap": 21,
+      "recommended_pit_lap": 21,
+      "recommended_window": [
+        21,
+        22
+      ],
+      "expected_gain": -22.94368583654176,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-022-13",
+      "lap": 21,
+      "recommended_pit_lap": 21,
+      "recommended_window": [
+        21,
+        22
+      ],
+      "expected_gain": -22.595685836541804,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-024-41",
+      "lap": 21,
+      "recommended_pit_lap": 22,
+      "recommended_window": [
+        21,
+        23
+      ],
+      "expected_gain": -23.79754704835085,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-026-72",
+      "lap": 21,
+      "recommended_pit_lap": 21,
+      "recommended_window": [
+        21,
+        22
+      ],
+      "expected_gain": -22.94368583654176,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-028-89",
+      "lap": 21,
+      "recommended_pit_lap": 22,
+      "recommended_window": [
+        21,
+        23
+      ],
+      "expected_gain": -23.79754704835085,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-032-15",
+      "lap": 21,
+      "recommended_pit_lap": 22,
+      "recommended_window": [
+        21,
+        23
+      ],
+      "expected_gain": -23.79754704835085,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-033-46",
+      "lap": 21,
+      "recommended_pit_lap": 21,
+      "recommended_window": [
+        21,
+        22
+      ],
+      "expected_gain": -23.291685836541717,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-036-98",
+      "lap": 21,
+      "recommended_pit_lap": 21,
+      "recommended_window": [
+        21,
+        22
+      ],
+      "expected_gain": -22.94368583654176,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-038-93",
+      "lap": 21,
+      "recommended_pit_lap": 22,
+      "recommended_window": [
+        21,
+        23
+      ],
+      "expected_gain": -23.555219447534398,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-040-3",
+      "lap": 21,
+      "recommended_pit_lap": 22,
+      "recommended_window": [
+        21,
+        23
+      ],
+      "expected_gain": -23.79754704835085,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-047-21",
+      "lap": 21,
+      "recommended_pit_lap": 22,
+      "recommended_window": [
+        21,
+        23
+      ],
+      "expected_gain": -23.79754704835085,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-049-88",
+      "lap": 21,
+      "recommended_pit_lap": 22,
+      "recommended_window": [
+        21,
+        23
+      ],
+      "expected_gain": -23.555219447534398,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-049-88",
+      "lap": 21,
+      "recommended_pit_lap": 21,
+      "recommended_window": [
+        21,
+        22
+      ],
+      "expected_gain": -23.291685836541717,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-051-71",
+      "lap": 21,
+      "recommended_pit_lap": 22,
+      "recommended_window": [
+        21,
+        23
+      ],
+      "expected_gain": -23.555219447534398,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-061-51",
+      "lap": 21,
+      "recommended_pit_lap": 21,
+      "recommended_window": [
+        21,
+        22
+      ],
+      "expected_gain": -23.291685836541717,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-062-012",
+      "lap": 21,
+      "recommended_pit_lap": 21,
+      "recommended_window": [
+        21,
+        22
+      ],
+      "expected_gain": -22.595685836541804,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-063-113",
+      "lap": 21,
+      "recommended_pit_lap": 22,
+      "recommended_window": [
+        21,
+        23
+      ],
+      "expected_gain": -23.79754704835085,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-063-113",
+      "lap": 21,
+      "recommended_pit_lap": 22,
+      "recommended_window": [
+        21,
+        23
+      ],
+      "expected_gain": -23.555219447534398,
+      "confidence": 0.95
+    },
+    {
+      "vehicle_id": "GR86-065-5",
+      "lap": 21,
+      "recommended_pit_lap": 22,
+      "recommended_window": [
+        21,
+        23
+      ],
+      "expected_gain": -23.79754704835085,
+      "confidence": 0.95
+    }
+  ],
+  "metrics": {
+    "total_recommendations": 130,
+    "mean_confidence": 0.9500000000000001
+  }
+}

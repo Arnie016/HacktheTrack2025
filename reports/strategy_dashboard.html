@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Strategy vs Actual Race Comparison</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #0a0a0a;
+            color: #e0e0e0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            border-radius: 10px;
+        }
+        
+        h1 {
+            color: #00d4ff;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .summary-card {
+            background: #1a1a2e;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #00d4ff;
+        }
+        
+        .summary-card h3 {
+            color: #00d4ff;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+        
+        .summary-card .value {
+            font-size: 2em;
+            font-weight: bold;
+            color: #fff;
+        }
+        
+        .vehicle-card {
+            background: #1a1a2e;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 30px;
+            border: 1px solid #2a2a3e;
+        }
+        
+        .vehicle-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #2a2a3e;
+        }
+        
+        .vehicle-id {
+            font-size: 1.5em;
+            color: #00d4ff;
+            font-weight: bold;
+        }
+        
+        .vehicle-stats {
+            display: flex;
+            gap: 20px;
+            font-size: 0.9em;
+        }
+        
+        .stat {
+            padding: 5px 15px;
+            background: #2a2a3e;
+            border-radius: 5px;
+        }
+        
+        .stat-label {
+            color: #888;
+            font-size: 0.8em;
+        }
+        
+        .stat-value {
+            color: #fff;
+            font-weight: bold;
+        }
+        
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .comparison-panel {
+            background: #2a2a3e;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        
+        .panel-title {
+            color: #00d4ff;
+            font-size: 1.2em;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 10px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #3a3a4e;
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin-bottom: 15px;
+            padding: 12px;
+            background: #1a1a2e;
+            border-radius: 6px;
+            margin-left: 20px;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -25px;
+            top: 18px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            border: 2px solid #0a0a0a;
+        }
+        
+        .timeline-item.ai::before {
+            background: #00d4ff;
+        }
+        
+        .timeline-item.actual::before {
+            background: #ff6b6b;
+        }
+        
+        .timeline-item.ai {
+            border-left: 3px solid #00d4ff;
+        }
+        
+        .timeline-item.actual {
+            border-left: 3px solid #ff6b6b;
+        }
+        
+        .lap-number {
+            display: inline-block;
+            background: #00d4ff;
+            color: #0a0a0a;
+            padding: 4px 10px;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 0.9em;
+            margin-right: 10px;
+        }
+        
+        .lap-number.actual {
+            background: #ff6b6b;
+            color: #fff;
+        }
+        
+        .confidence {
+            display: inline-block;
+            padding: 3px 8px;
+            background: rgba(0, 212, 255, 0.2);
+            border-radius: 4px;
+            font-size: 0.85em;
+            margin-left: 10px;
+        }
+        
+        .improvement-metrics {
+            background: #1a1a2e;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            border: 2px solid #2a2a3e;
+        }
+        
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .metric {
+            text-align: center;
+            padding: 15px;
+            background: #2a2a3e;
+            border-radius: 6px;
+        }
+        
+        .metric-label {
+            color: #888;
+            font-size: 0.85em;
+            margin-bottom: 5px;
+        }
+        
+        .metric-value {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #00d4ff;
+        }
+        
+        .metric-value.positive {
+            color: #4caf50;
+        }
+        
+        .metric-value.negative {
+            color: #f44336;
+        }
+        
+        .match-indicator {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 5px;
+            font-size: 0.85em;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+        
+        .match-indicator.match {
+            background: #4caf50;
+            color: #fff;
+        }
+        
+        .match-indicator.different {
+            background: #ff9800;
+            color: #fff;
+        }
+        
+        .match-indicator.ai-only {
+            background: #2196f3;
+            color: #fff;
+        }
+        
+        .match-indicator.actual-only {
+            background: #f44336;
+            color: #fff;
+        }
+        
+        .filters {
+            background: #1a1a2e;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+        
+        .filter-group {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        
+        .filter-group label {
+            color: #00d4ff;
+            font-weight: bold;
+        }
+        
+        .filter-group input,
+        .filter-group select {
+            padding: 8px 12px;
+            background: #2a2a3e;
+            border: 1px solid #3a3a4e;
+            border-radius: 5px;
+            color: #fff;
+            font-size: 0.9em;
+        }
+        
+        .filter-group input:focus,
+        .filter-group select:focus {
+            outline: none;
+            border-color: #00d4ff;
+        }
+        
+        .no-data {
+            text-align: center;
+            padding: 40px;
+            color: #888;
+            font-style: italic;
+        }
+        
+        .error-message {
+            background: #f44336;
+            color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        
+        @media (max-width: 768px) {
+            .comparison-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🏎️ AI Strategy vs Actual Race</h1>
+            <p>Side-by-side comparison with improvement metrics</p>
+        </header>
+        
+        <div class="summary" id="summary">
+            <!-- Summary cards will be populated by JavaScript -->
+        </div>
+        
+        <div class="filters">
+            <div class="filter-group">
+                <label>Search Vehicle:</label>
+                <input type="text" id="vehicleFilter" placeholder="e.g., GR86-002-2">
+            </div>
+            <div class="filter-group">
+                <label>Min Confidence:</label>
+                <input type="number" id="confidenceFilter" min="0" max="1" step="0.1" value="0">
+            </div>
+            <div class="filter-group">
+                <label>Show:</label>
+                <select id="showFilter">
+                    <option value="all">All Vehicles</option>
+                    <option value="matches">Matches Only</option>
+                    <option value="differences">Differences Only</option>
+                </select>
+            </div>
+        </div>
+        
+        <div id="comparisons">
+            <!-- Comparison cards will be populated by JavaScript -->
+        </div>
+    </div>
+    
+    <script>
+        let comparisonData = null;
+        
+        // Load JSON data - try multiple paths
+        async function loadData() {
+            const possiblePaths = [
+                'strategy_comparison.json',
+                './strategy_comparison.json',
+                '../reports/strategy_comparison.json',
+                'reports/strategy_comparison.json'
+            ];
+            
+            for (const path of possiblePaths) {
+                try {
+                    const response = await fetch(path);
+                    if (response.ok) {
+                        comparisonData = await response.json();
+                        renderDashboard();
+                        return;
+                    }
+                } catch (error) {
+                    continue;
+                }
+            }
+            
+            // If all paths failed, show error
+            document.getElementById('comparisons').innerHTML = 
+                '<div class="error-message">❌ Could not load strategy_comparison.json. Make sure the file exists in the same directory as this HTML file.</div>';
+            console.error('Error loading data: Tried paths:', possiblePaths);
+        }
+        
+        function renderDashboard() {
+            renderSummary();
+            renderComparisons();
+            setupFilters();
+        }
+        
+        function renderSummary() {
+            const summary = comparisonData.summary;
+            const summaryDiv = document.getElementById('summary');
+            summaryDiv.innerHTML = `
+                <div class="summary-card">
+                    <h3>Total Vehicles</h3>
+                    <div class="value">${summary.total_vehicles}</div>
+                </div>
+                <div class="summary-card">
+                    <h3>Total Recommendations</h3>
+                    <div class="value">${summary.total_recommendations}</div>
+                </div>
+                <div class="summary-card">
+                    <h3>Avg Confidence</h3>
+                    <div class="value">${(summary.avg_confidence * 100).toFixed(1)}%</div>
+                </div>
+            `;
+        }
+        
+        function renderComparisons(filteredData = null) {
+            const comparisons = filteredData || comparisonData.comparisons;
+            const container = document.getElementById('comparisons');
+            
+            if (comparisons.length === 0) {
+                container.innerHTML = '<div class="no-data">No vehicles match the current filters.</div>';
+                return;
+            }
+            
+            container.innerHTML = comparisons.map(comp => {
+                const vehicle = comp.vehicle;
+                const aiPits = comp.ai_strategy
+                    .filter(r => r.recommended_pit_lap && r.recommended_pit_lap < 1000)
+                    .map(r => r.recommended_pit_lap);
+                const actualPits = comp.actual_pits.map(p => p.lap);
+                
+                // Calculate improvement metrics
+                const metrics = calculateMetrics(aiPits, actualPits, comp);
+                
+                // Determine match status
+                const matchStatus = getMatchStatus(aiPits, actualPits);
+                
+                return `
+                    <div class="vehicle-card">
+                        <div class="vehicle-header">
+                            <div class="vehicle-id">${vehicle.vehicle_id}</div>
+                            <div class="vehicle-stats">
+                                ${vehicle.final_position ? `<div class="stat"><span class="stat-label">Position:</span> <span class="stat-value">${vehicle.final_position}</span></div>` : ''}
+                                ${vehicle.laps_completed ? `<div class="stat"><span class="stat-label">Laps:</span> <span class="stat-value">${vehicle.laps_completed}</span></div>` : ''}
+                                <div class="stat"><span class="stat-label">Recommendations:</span> <span class="stat-value">${comp.total_recommendations}</span></div>
+                            </div>
+                        </div>
+                        
+                        <div class="match-indicator ${matchStatus.class}">${matchStatus.text}</div>
+                        
+                        <div class="comparison-grid">
+                            <div class="comparison-panel">
+                                <div class="panel-title">🤖 AI Strategy</div>
+                                <div class="timeline">
+                                    ${comp.ai_strategy.map(rec => {
+                                        if (!rec.recommended_pit_lap || rec.recommended_pit_lap >= 1000) {
+                                            return '';
+                                        }
+                                        return `
+                                            <div class="timeline-item ai">
+                                                <span class="lap-number">Lap ${rec.recommended_pit_lap}</span>
+                                                <span class="confidence">${(rec.confidence * 100).toFixed(0)}%</span>
+                                                <div style="margin-top: 5px; font-size: 0.85em; color: #bbb;">
+                                                    Window: Laps ${rec.window[0] || rec.recommended_pit_lap}-${rec.window[1] || rec.recommended_pit_lap + 1}
+                                                </div>
+                                            </div>
+                                        `;
+                                    }).join('')}
+                                    ${comp.ai_strategy.filter(r => r.recommended_pit_lap && r.recommended_pit_lap < 1000).length === 0 ? '<div class="no-data">No AI recommendations</div>' : ''}
+                                </div>
+                            </div>
+                            
+                            <div class="comparison-panel">
+                                <div class="panel-title">🏁 Actual Race</div>
+                                <div class="timeline">
+                                    ${comp.actual_pits.map(pit => `
+                                        <div class="timeline-item actual">
+                                            <span class="lap-number actual">Lap ${pit.lap}</span>
+                                            <div style="margin-top: 5px; font-size: 0.85em; color: #bbb;">
+                                                Stint: ${pit.stint_length} laps | Best: ${(pit.best_lap_time_ms / 1000).toFixed(2)}s
+                                            </div>
+                                        </div>
+                                    `).join('')}
+                                    ${comp.actual_pits.length === 0 ? '<div class="no-data">No pit stops detected</div>' : ''}
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="improvement-metrics">
+                            <div class="panel-title">📊 Improvement Metrics</div>
+                            <div class="metrics-grid">
+                                <div class="metric">
+                                    <div class="metric-label">Matches</div>
+                                    <div class="metric-value ${metrics.matches > 0 ? 'positive' : ''}">${metrics.matches}</div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-label">AI Pits</div>
+                                    <div class="metric-value">${metrics.aiPitCount}</div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-label">Actual Pits</div>
+                                    <div class="metric-value">${metrics.actualPitCount}</div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-label">Match Rate</div>
+                                    <div class="metric-value ${metrics.matchRate >= 0.5 ? 'positive' : metrics.matchRate > 0 ? '' : 'negative'}">${(metrics.matchRate * 100).toFixed(0)}%</div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-label">Avg Confidence</div>
+                                    <div class="metric-value">${metrics.avgConfidence.toFixed(0)}%</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+        
+        function calculateMetrics(aiPits, actualPits, comp) {
+            const aiSet = new Set(aiPits);
+            const actualSet = new Set(actualPits);
+            
+            // Count matches (within 2 laps)
+            let matches = 0;
+            for (const aiLap of aiSet) {
+                for (const actualLap of actualSet) {
+                    if (Math.abs(aiLap - actualLap) <= 2) {
+                        matches++;
+                        break;
+                    }
+                }
+            }
+            
+            // Calculate match rate
+            const maxPits = Math.max(aiSet.size, actualSet.size);
+            const matchRate = maxPits > 0 ? matches / maxPits : 0;
+            
+            // Average confidence
+            const validRecs = comp.ai_strategy.filter(r => r.recommended_pit_lap && r.recommended_pit_lap < 1000);
+            const avgConfidence = validRecs.length > 0
+                ? validRecs.reduce((sum, r) => sum + (r.confidence || 0), 0) / validRecs.length * 100
+                : 0;
+            
+            return {
+                matches,
+                aiPitCount: aiSet.size,
+                actualPitCount: actualSet.size,
+                matchRate,
+                avgConfidence
+            };
+        }
+        
+        function getMatchStatus(aiPits, actualPits) {
+            if (aiPits.length === 0 && actualPits.length === 0) {
+                return { class: 'match', text: '✓ No pits (match)' };
+            }
+            if (aiPits.length === 0) {
+                return { class: 'ai-only', text: 'AI: No pits recommended' };
+            }
+            if (actualPits.length === 0) {
+                return { class: 'actual-only', text: 'Actual: No pits detected' };
+            }
+            
+            // Check if pits are close (within 2 laps)
+            const matches = aiPits.filter(ai => 
+                actualPits.some(actual => Math.abs(ai - actual) <= 2)
+            );
+            
+            if (matches.length === Math.max(aiPits.length, actualPits.length)) {
+                return { class: 'match', text: '✓ Good match' };
+            } else if (matches.length > 0) {
+                return { class: 'different', text: '⚠ Partial match' };
+            } else {
+                return { class: 'different', text: '✗ Different strategy' };
+            }
+        }
+        
+        function setupFilters() {
+            document.getElementById('vehicleFilter').addEventListener('input', applyFilters);
+            document.getElementById('confidenceFilter').addEventListener('input', applyFilters);
+            document.getElementById('showFilter').addEventListener('change', applyFilters);
+        }
+        
+        function applyFilters() {
+            const vehicleFilter = document.getElementById('vehicleFilter').value.toLowerCase();
+            const confidenceFilter = parseFloat(document.getElementById('confidenceFilter').value) || 0;
+            const showFilter = document.getElementById('showFilter').value;
+            
+            let filtered = comparisonData.comparisons.filter(comp => {
+                // Vehicle filter
+                if (vehicleFilter && !comp.vehicle.vehicle_id.toLowerCase().includes(vehicleFilter)) {
+                    return false;
+                }
+                
+                // Confidence filter
+                const maxConfidence = Math.max(...comp.ai_strategy.map(r => r.confidence || 0));
+                if (maxConfidence < confidenceFilter) {
+                    return false;
+                }
+                
+                // Show filter
+                if (showFilter !== 'all') {
+                    const aiPits = comp.ai_strategy
+                        .filter(r => r.recommended_pit_lap && r.recommended_pit_lap < 1000)
+                        .map(r => r.recommended_pit_lap);
+                    const actualPits = comp.actual_pits.map(p => p.lap);
+                    const matchStatus = getMatchStatus(aiPits, actualPits);
+                    
+                    if (showFilter === 'matches' && matchStatus.class !== 'match') {
+                        return false;
+                    }
+                    if (showFilter === 'differences' && matchStatus.class === 'match') {
+                        return false;
+                    }
+                }
+                
+                return true;
+            });
+            
+            renderComparisons(filtered);
+        }
+        
+        // Load data on page load
+        loadData();
+    </script>
+</body>
+</html>

@@ -1,0 +1,7 @@
+{
+  "model": "kalman-3reg",
+  "initial_pace": 130.0,
+  "process_noise": 0.1,
+  "measurement_noise": 0.5,
+  "version": "1.0"
+}
